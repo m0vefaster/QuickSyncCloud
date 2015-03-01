@@ -7,7 +7,8 @@ public class PeerNode implements Serializable{
     private int peerWeight;
     private ListOfFiles lof;
     private HashMap<String, ArrayList<String>> hMap;
-    String ipAddress ;
+    private String ipAddress ;
+    private Socket s;
 
     PeerNode(String peerId){
         Random ran = new Random();
@@ -64,6 +65,16 @@ public class PeerNode implements Serializable{
     String getIPAddress()
     {
         return ipAddress;
+    }
+
+    void setSocket(Socket s)
+    {
+        this.s = s;
+    }
+
+    Socket getSocket()
+    {
+        return s;
     }
 }
 

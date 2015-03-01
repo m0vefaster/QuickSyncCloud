@@ -36,91 +36,110 @@ public class TcpServer implements Runnable
     {
         int count =0;
         System.out.println("TcpServer:run: Server running "+s.toString());
-        try {
-            JSONObject obj = getMessage(s);
+        while(true){
+                try {
+                    JSONObject obj = getMessage(s);
 
-            if(count++%100 == 0){
-                //System.out.println("TcpServer:run: Running TcpServer\n");
-            }
-
-            //Check for NULL Object
-            if(obj.get("type").equals("Control"))
-            {
-                System.out.println("TcpServer:run: Got an Control Message from:"+s.getInetAddress().toString());
-                String str = (String)obj.get("value");
-                //Send the file from ...
-                File file= new File(path+"/"+str);
-                JSONObject obj2 = JSONManager.getJSON(file);
-                Thread client = new Thread(new TcpClient(s.getInetAddress().getHostAddress(), "60010", obj2));
-                client.start();
-            }
-            else if(obj.get("type").toString().substring(0,4).equals("File"))
-            {
-                
-                System.out.println("TcpServer:run: Got an File from:"+s.getInetAddress().toString());
-                String fileContent = (String)obj.get("value");
-                //Store this File...
-                String receivedPath = obj.get("type").toString().substring(4);
-                String[] splits = receivedPath.split("/");
-                int noOfSplits = splits.length;
-                String newPath = path;
-
-                while(noOfSplits > 1){
-                    newPath = newPath + "/" + splits[splits.length - noOfSplits];
-                    File theDir = new File(newPath);
-                    if(!theDir.exists()){
-                        theDir.mkdir();
+                    if(count++%100 == 0){
+                        //System.out.println("TcpServer:run: Running TcpServer\n");
                     }
-                    noOfSplits--;
+
+                    //Check for NULL Object
+
+                    if(obj.get("type").equals("Init"))
+                    {
+                        String data = (String)obj.get("value");
+                        String[] components = data.split(":");
+
+                        /* Check if it is from the same client. Parse peerList */
+                        if(peerList.getPeerNode(components[0]) != null){
+                            continue;
+                        }
+                        
+                        PeerNode peer = new PeerNode(components[0], s.getInetAddress().toString(), Integer.parseInt(components[1]));
+                        peer.setSocket(s);
+                        /* Store the sender info in the linked list */
+                        peerList.addPeerNode(peer);
+                    }
+                    if(obj.get("type").equals("Control"))
+                    {
+                        System.out.println("TcpServer:run: Got an Control Message from:"+s.getInetAddress().toString());
+                        String str = (String)obj.get("value");
+                        //Send the file from ...
+                        File file= new File(path+"/"+str);
+                        JSONObject obj2 = JSONManager.getJSON(file);
+                        sendMessage(s,obj);
+                    }
+                    else if(obj.get("type").toString().substring(0,4).equals("File"))
+                    {
+                        
+                        System.out.println("TcpServer:run: Got an File from:"+s.getInetAddress().toString());
+                        String fileContent = (String)obj.get("value");
+                        //Store this File...
+                        String receivedPath = obj.get("type").toString().substring(4);
+                        String[] splits = receivedPath.split("/");
+                        int noOfSplits = splits.length;
+                        String newPath = path;
+
+                        while(noOfSplits > 1){
+                            newPath = newPath + "/" + splits[splits.length - noOfSplits];
+                            File theDir = new File(newPath);
+                            if(!theDir.exists()){
+                                theDir.mkdir();
+                            }
+                            noOfSplits--;
+                        }
+                        
+                        File file = new File(path+"/"+ receivedPath);
+                        file.createNewFile();
+                        FileOutputStream fos = new FileOutputStream(file);
+                        BufferedOutputStream bos = new BufferedOutputStream(fos);
+                        bos.write(fileContent.getBytes());
+                        bos.close();
+                    }
+                    else if(obj.get("type").equals("ArrayList"))
+                    {
+                        System.out.println("TcpServer:run: Got an ArrayList from:"+s.getInetAddress().toString());
+                        ArrayList list = (ArrayList)obj.get("value");
+                        //Uodate the peerList peerNode list of files
+                        PeerNode peerNode = peerList.getPeerNodeFromIP(s.getInetAddress().getHostAddress());
+                        
+                        if(peerNode ==null)
+                        {
+                            System.out.println("TcpServer:run: \nCouldn't find the PeerNode");
+                        }
+                        else
+                        {
+                            ListOfFiles lof= new ListOfFiles(list);
+                            peerNode.setListOfFiles(lof);
+                        }
+                    }
+                    else if(obj.get("type").equals("HashMap"))
+                    {
+                        System.out.println("TcpServer:run: Got an HashMap from:"+s.getInetAddress().toString());
+                        HashMap map = (HashMap)obj.get("value");
+                        peerList.getSelf().setHashMapFilePeer(map);
+                    }
+                    else
+                    {
+                        System.out.println("TcpServer:run: Got an Invalid Message from:"+s.getInetAddress().toString());
+                    }
+                    
+                    //CLOSE SOCKET HERE
+                    s.close();
                 }
-                
-                File file = new File(path+"/"+ receivedPath);
-                file.createNewFile();
-                FileOutputStream fos = new FileOutputStream(file);
-                BufferedOutputStream bos = new BufferedOutputStream(fos);
-                bos.write(fileContent.getBytes());
-                bos.close();
-            }
-            else if(obj.get("type").equals("ArrayList"))
-            {
-                System.out.println("TcpServer:run: Got an ArrayList from:"+s.getInetAddress().toString());
-                ArrayList list = (ArrayList)obj.get("value");
-                //Uodate the peerList peerNode list of files
-                PeerNode peerNode = peerList.getPeerNodeFromIP(s.getInetAddress().getHostAddress());
-                
-                if(peerNode ==null)
-                {
-                    System.out.println("TcpServer:run: \nCouldn't find the PeerNode");
-                }
-                else
-                {
-                    ListOfFiles lof= new ListOfFiles(list);
-                    peerNode.setListOfFiles(lof);
+                catch (Exception e) {
+                    try{
+                        s.close();
+                        System.out.println("TcpServer:run: closing socket "+s.toString());
+                    e.printStackTrace();
+                    }
+                    catch(Exception ee)
+                    {
+                    }
                 }
             }
-            else if(obj.get("type").equals("HashMap"))
-            {
-                System.out.println("TcpServer:run: Got an HashMap from:"+s.getInetAddress().toString());
-                HashMap map = (HashMap)obj.get("value");
-                peerList.getSelf().setHashMapFilePeer(map);
-            }
-            else
-            {
-                System.out.println("TcpServer:run: Got an Invalid Message from:"+s.getInetAddress().toString());
-            }
-            
-            //CLOSE SOCKET HERE
-            s.close();
-        }catch (Exception e) {
-            try{
-                s.close();
-                System.out.println("TcpServer:run: closing socket "+s.toString());
-            e.printStackTrace();}
-            catch(Exception ee)
-            {
-            }
-        }
-        System.out.println();        
+               
     }
     
     JSONObject getMessage(Socket s)
@@ -157,4 +176,24 @@ public class TcpServer implements Runnable
         }
         System.out.println("========Leaving find()===========");
     }
+
+        void sendMessage(Socket client , JSONObject obj)
+    {
+        try
+        {
+            OutputStream outToServer = client.getOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(outToServer);
+            byte[] outputArray = obj.toString().getBytes();
+            int len = obj.toString().length();
+            out.writeObject(len);
+            out.writeObject(outputArray);
+            out.close();
+            client.close();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -4,6 +4,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import java.net.*;
 
 public class Sync implements Runnable{
     ListOfFiles files;
@@ -46,8 +47,7 @@ public class Sync implements Runnable{
                         }
                         continue;
                     }
-                    Thread client = new Thread(new TcpClient(masterNode.getIPAddress(), "60010", obj));
-                    client.start();
+                    sendMessage(masterNode.getSocket(),obj);
                 }
             }
             
@@ -113,8 +113,7 @@ public class Sync implements Runnable{
                     print(hmFilesPeers);
                     if(!hmFilesPeers.isEmpty()){
                         JSONObject obj = JSONManager.getJSON(hmFilesPeers);// make the object
-                        Thread client = new Thread(new TcpClient(peerNode.getIPAddress(), "60010", obj));
-                        client.start();
+                        sendMessage(peerNode.getSocket(),obj);
                     }
                 }
 
@@ -158,9 +157,7 @@ public class Sync implements Runnable{
         }
 
         JSONObject obj = JSONManager.getJSON(fileName);
-        Thread client = new Thread(new TcpClient(peer.getIPAddress(), "60010", obj));
-        client.start();
-        
+        sendMessage(peer.getSocket(),obj);
         return true;
     }
     
@@ -240,4 +237,24 @@ public class Sync implements Runnable{
         }
         System.out.println("Sync:run:========Leaving find()===========");
     }
+
+    void sendMessage(Socket client , JSONObject obj)
+    {
+        try
+        {
+            OutputStream outToServer = client.getOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(outToServer);
+            byte[] outputArray = obj.toString().getBytes();
+            int len = obj.toString().length();
+            out.writeObject(len);
+            out.writeObject(outputArray);
+            out.close();
+            client.close();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
 }
