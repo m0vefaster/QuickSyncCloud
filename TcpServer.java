@@ -57,7 +57,7 @@ public class TcpServer implements Runnable
                             continue;
                         }
                         
-                        PeerNode peer = new PeerNode(components[0], s.getInetAddress().toString(), Integer.parseInt(components[1]));
+                        PeerNode peer = new PeerNode(components[0], s.getInetAddress().getHostAddress(), Integer.parseInt(components[1]));
                         peer.setSocket(s);
                         /* Store the sender info in the linked list */
                         peerList.addPeerNode(peer);
@@ -67,7 +67,7 @@ public class TcpServer implements Runnable
                     }
                     else if(obj.get("type").equals("Control"))
                     {
-                        System.out.println("TcpServer:run: Got an Control Message from:"+s.getInetAddress().toString());
+                        System.out.println("TcpServer:run: Got an Control Message from:"+s.getInetAddress().getHostAddress());
                         String str = (String)obj.get("value");
                         //Send the file from ...
                         File file= new File(path+"/"+str);
@@ -77,7 +77,7 @@ public class TcpServer implements Runnable
                     else if(obj.get("type").toString().substring(0,4).equals("File"))
                     {
                         
-                        System.out.println("TcpServer:run: Got an File from:"+s.getInetAddress().toString());
+                        System.out.println("TcpServer:run: Got an File from:"+s.getInetAddress().getHostAddress());
                         String fileContent = (String)obj.get("value");
                         //Store this File...
                         String receivedPath = obj.get("type").toString().substring(4);
@@ -103,7 +103,7 @@ public class TcpServer implements Runnable
                     }
                     else if(obj.get("type").equals("ArrayList"))
                     {
-                        System.out.println("TcpServer:run: Got an ArrayList from:"+s.getInetAddress().toString());
+                        System.out.println("TcpServer:run: Got an ArrayList from:"+s.getInetAddress().getHostAddress());
                         ArrayList list = (ArrayList)obj.get("value");
                         //Uodate the peerList peerNode list of files
                         PeerNode peerNode = peerList.getPeerNodeFromIP(s.getInetAddress().getHostAddress());
