@@ -106,7 +106,7 @@ public class TcpServer implements Runnable
                         System.out.println("TcpServer:run: Got an ArrayList from:"+s.getInetAddress().getHostAddress());
                         ArrayList list = (ArrayList)obj.get("value");
                         //Uodate the peerList peerNode list of files
-                        PeerNode peerNode = peerList.getPeerNodeFromIP(s.getInetAddress().getHostAddress());
+                        PeerNode peerNode = peerList.getPeerNodeFromSocket(s);
                         System.out.print("TcpServer:run: Printing Peer List:");
                         peerList.printPeerList();
                         if(peerNode ==null)
