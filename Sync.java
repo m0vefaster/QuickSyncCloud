@@ -250,7 +250,7 @@ public class Sync implements Runnable{
             out.writeObject(outputArray);
             //out.close();
             //client.close
-            client.shutdownInput();
+            //client.shutdownInput();
             client.shutdownOutput();        }
         catch(Exception e)
         {
