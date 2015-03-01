@@ -253,6 +253,7 @@ public class Sync implements Runnable{
         }
         catch(Exception e)
         {
+            System.out.println("Sync:sendMessage:Exception in sendMesssage");
             e.printStackTrace();
         }
     }
