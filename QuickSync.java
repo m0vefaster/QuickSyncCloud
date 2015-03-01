@@ -95,7 +95,7 @@ public class QuickSync{
         
         try
         {
-            serverPort = "60010";
+            serverPort = "60011";
             ss = new ServerSocket(Integer.parseInt(serverPort));
         }
         
