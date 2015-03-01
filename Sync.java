@@ -249,7 +249,7 @@ public class Sync implements Runnable{
             out.writeObject(len);
             out.writeObject(outputArray);
             out.close();
-            client.close();
+            //client.close();
         }
         catch(Exception e)
         {
