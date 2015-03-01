@@ -134,7 +134,10 @@ public class TcpServer implements Runnable
                 catch (Exception e) {
 
                     try{
-                        s.close();
+			PeerNode nodeToBeRemoved = peerList.getPeerNodeFromSocket(s);
+		        System.out.println("Removing PeerNode:" + nodeToBeRemoved.getId() + ":" + peerList.removePeerNode(nodeToBeRemoved));	
+                    	peerList.printPeerList();
+		        s.close();
                         System.out.println("TcpServer:run: closing socket "+s.toString());
                         e.printStackTrace();
                         System.out.println("TcpServer:run:Exeception in TcpServer");
