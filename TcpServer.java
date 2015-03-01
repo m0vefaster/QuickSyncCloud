@@ -62,7 +62,7 @@ public class TcpServer implements Runnable
                         /* Store the sender info in the linked list */
                         peerList.addPeerNode(peer);
                         System.out.print("TcpServer:run: Printing Peer List:");
-                        printPeerList.printPeerList();
+                        peerList.printPeerList();
 
                     }
                     if(obj.get("type").equals("Control"))
@@ -108,7 +108,7 @@ public class TcpServer implements Runnable
                         //Uodate the peerList peerNode list of files
                         PeerNode peerNode = peerList.getPeerNodeFromIP(s.getInetAddress().getHostAddress());
                         System.out.print("TcpServer:run: Printing Peer List:");
-                        printPeerList.printPeerList();
+                        peerList.printPeerList();
                         if(peerNode ==null)
                         {
                             System.out.println("TcpServer:run: \nCouldn't find the PeerNode");
