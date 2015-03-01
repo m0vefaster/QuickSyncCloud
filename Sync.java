@@ -108,7 +108,7 @@ public class Sync implements Runnable{
 
                     System.out.print("\nThe File list of " + peerNode.getId() + "is:");
                     peerNode.getListOfFiles().printFileList();
-
+		    removeInvalidPeers(hmFilesPeers,peerNode);
                     System.out.print("Sync.java: Hashmap from controller to " + peerNode.getId());
                     print(hmFilesPeers);
                     if(!hmFilesPeers.isEmpty()){
@@ -260,4 +260,27 @@ public class Sync implements Runnable{
         }
     }
 
+    void removeInvalidPeers (HashMap<String, ArrayList<String>> hmFilesPeers,PeerNode peerNode)
+	{
+	     String peerIPAddress = peerNode.getIPAddress();	
+	     Set mappingSet = hmFilesPeers.entrySet();
+             Iterator itr =  mappingSet.iterator();
+             SortedSet<PeerNode> peerList =listOfPeers.getList(); 
+            while(itr.hasNext())
+			{
+          		  Map.Entry<String, ArrayList<String>> entry = (Map.Entry<String, ArrayList<String>>)itr.next();
+        	          ArrayList<String> allPeers = entry.getValue();
+			  int i=0;
+			  while(i<allPeers.size())
+				{
+					PeerNode node = listOfPeers.getPeerNode(allPeers.get(i));
+					if(peerNode.getIPAddress().equals(peerIPAddress))
+						{
+							allPeers.remove(i);
+						}
+					else
+						i++;
+				}
+			}		 	
+	} 
 }
