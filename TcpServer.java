@@ -48,9 +48,10 @@ public class TcpServer implements Runnable
 
                     if(obj.get("type").equals("Init"))
                     {
+                        System.out.print("TcpServer:run: Got an Init Message:");
                         String data = (String)obj.get("value");
                         String[] components = data.split(":");
-
+                        System.out.println(data);
                         /* Check if it is from the same client. Parse peerList */
                         if(peerList.getPeerNode(components[0]) != null){
                             continue;
@@ -60,6 +61,7 @@ public class TcpServer implements Runnable
                         peer.setSocket(s);
                         /* Store the sender info in the linked list */
                         peerList.addPeerNode(peer);
+
                     }
                     if(obj.get("type").equals("Control"))
                     {
@@ -124,21 +126,21 @@ public class TcpServer implements Runnable
                     {
                         System.out.println("TcpServer:run: Got an Invalid Message from:"+s.getInetAddress().toString());
                     }
-                    
-                    //CLOSE SOCKET HERE
-                    s.close();
                 }
                 catch (Exception e) {
                     try{
                         s.close();
                         System.out.println("TcpServer:run: closing socket "+s.toString());
-                    e.printStackTrace();
+                        //e.printStackTrace();
+                        System.out.println("TcpServer:run:Exeception in TcpServer");
                     }
                     catch(Exception ee)
                     {
                     }
                 }
             }
+
+            s.close();
                
     }
     
