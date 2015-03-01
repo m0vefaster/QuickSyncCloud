@@ -65,7 +65,7 @@ public class TcpServer implements Runnable
                         peerList.printPeerList();
 
                     }
-                    if(obj.get("type").equals("Control"))
+                    else if(obj.get("type").equals("Control"))
                     {
                         System.out.println("TcpServer:run: Got an Control Message from:"+s.getInetAddress().toString());
                         String str = (String)obj.get("value");
@@ -127,7 +127,7 @@ public class TcpServer implements Runnable
                     }
                     else
                     {
-                        System.out.println("TcpServer:run: Got an Invalid Message from:"+s.getInetAddress().toString());
+                        System.out.println("TcpServer:run: Got an Invalid Message from:"+s.getInetAddress().toString() + " "+obj);
                     }
                 }
                 catch (Exception e) {
