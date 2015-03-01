@@ -53,10 +53,11 @@ public class QuickSync{
         }
 
         hostName = args[0]; //Change it to get automatic hostname
-        PeerNode self = new PeerNode(hostName, selfIp, Integer.parseInt(JOptionPane.showInputDialog("Enter Weight:")));
+        cloudIP=  args[1];//JOptionPane.showInputDialog("Enter CloudIP");
+        Integer weight = Integer.parseInt(args[2]);
+        PeerNode self = new PeerNode(hostName, selfIp, weight);//Integer.parseInt(JOptionPane.showInputDialog("Enter Weight:")));
         peerList = new ListOfPeers(self);
 
-        cloudIP=  JOptionPane.showInputDialog("Enter CloudIP");
 
 
         if(cloudIP.equals(selfIp))
@@ -66,24 +67,25 @@ public class QuickSync{
         }
 
         /* By pass 2 arguments */
-		/*
+    		/*
         if(args.length > 2){
             while(count < args.length - 2){
                 client.add(args[0]);
                 count++;
             }
         }*/
+        if(!isCloud)
+        {
+          /* Start UDP client thread. Broadcast IP is hard-coded to "255.255.255.255" for now. Change if needed. */
+          Thread udpClient = new Thread(new UdpClient(Integer.parseInt("8886"), "255.255.255.255", client, peerList));
+          //Thread udpClient = new Thread(new UdpClient("FF7E:230::1234", client, peerList));
+          //Thread udpClient = new Thread(new UdpClient("235.1.1.1", client, peerList));
+          udpClient.start();
         
-        /* Start UDP client thread. Broadcast IP is hard-coded to "255.255.255.255" for now. Change if needed. */
-        Thread udpClient = new Thread(new UdpClient(Integer.parseInt("8886"), "255.255.255.255", client, peerList));
-        //Thread udpClient = new Thread(new UdpClient("FF7E:230::1234", client, peerList));
-        //Thread udpClient = new Thread(new UdpClient("235.1.1.1", client, peerList));
-        udpClient.start();
-        
-        /* Start UDP server thread */
-        Thread udpServer = new Thread(new UdpServer(Integer.parseInt("61001"), peerList));
-        udpServer.start();
-        
+          /* Start UDP server thread */
+          Thread udpServer = new Thread(new UdpServer(Integer.parseInt("61001"), peerList));
+          udpServer.start();
+        } 
         /* Start Sync thread */
         Thread sync = new Thread(new Sync(peerList));
         sync.start();
