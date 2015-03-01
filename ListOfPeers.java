@@ -24,9 +24,11 @@ class ListOfPeers
         @Override
         public int  compare(PeerNode pn1,PeerNode pn2)
         {
-            if( pn1.getWeight() > pn2.getWeight())
-            return 1;
-            return -1 ;
+            if( pn2.getWeight() > pn1.getWeight())
+            return -1;
+	    if(pn1.getWeight() == pn2.getWeight())
+	    return 0;	
+            return 1 ;
         }
     }
     
