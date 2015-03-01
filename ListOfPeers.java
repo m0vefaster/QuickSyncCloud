@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.*;
+import java.net.*;
 
 class ListOfPeers
 {
@@ -137,4 +138,21 @@ class ListOfPeers
         }
         System.out.println();
     }
+
+   PeerNode getPeerNodeFromSocket(Socket s)
+   {
+	Iterator<PeerNode> itr = peerList.iterator();
+        PeerNode node;
+        while(itr.hasNext()){
+            node = itr.next();
+            if(node.getSocket() == s ) {
+		System.out.println("Found a match for socket as PeerNode :"+ node.getId());
+                return node;
+            }
+
+        }
+
+        return null;
+   }	
+
 }
