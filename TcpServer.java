@@ -191,7 +191,7 @@ public class TcpServer implements Runnable
             int len = obj.toString().length();
             out.writeObject(len);
             out.writeObject(outputArray);
-            out.close();
+            //out.close();
             //client.close();
         }
         catch(Exception e)
