@@ -195,7 +195,8 @@ public class TcpServer implements Runnable
             out.writeObject(len);
             out.writeObject(outputArray);
             //out.close();
-            //client.close();
+            client.shutdownInput();
+            client.shutdownOutput();
         }
         catch(Exception e)
         {

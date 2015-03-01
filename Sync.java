@@ -249,8 +249,9 @@ public class Sync implements Runnable{
             out.writeObject(len);
             out.writeObject(outputArray);
             //out.close();
-            //client.close();
-        }
+            //client.close
+            client.shutdownInput();
+            client.shutdownOutput();        }
         catch(Exception e)
         {
             System.out.println("Sync:sendMessage:Exception in sendMesssage");
