@@ -45,7 +45,7 @@ public class TcpServer implements Runnable
                     }
 
                     //Check for NULL Object
-
+		    System.out.println("====================TcpServer:run:Got obj as :"+obj);
                     if(obj.get("type").equals("Init"))
                     {
                         System.out.print("TcpServer:run: Got an Init Message:");
@@ -72,7 +72,7 @@ public class TcpServer implements Runnable
                         //Send the file from ...
                         File file= new File(path+"/"+str);
                         JSONObject obj2 = JSONManager.getJSON(file);
-                        sendMessage(s,obj);
+                        sendMessage(s,obj2);
                     }
                     else if(obj.get("type").toString().substring(0,4).equals("File"))
                     {
@@ -133,10 +133,11 @@ public class TcpServer implements Runnable
                 catch (Exception e) {
 
                     try{
-                        //s.close();
+                        s.close();
                         System.out.println("TcpServer:run: closing socket "+s.toString());
-                        //e.printStackTrace();
+                        e.printStackTrace();
                         System.out.println("TcpServer:run:Exeception in TcpServer");
+			break;
                     }
                     catch(Exception ee)
                     {
@@ -165,6 +166,7 @@ public class TcpServer implements Runnable
         }
         catch(Exception e)
         {
+           e.printStackTrace();
            System.out.println("TcpServer:getMessage:Exception in getMesssage");
         }
         return obj;
