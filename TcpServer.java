@@ -162,7 +162,7 @@ public class TcpServer implements Runnable
         }
         catch(Exception e)
         {
-           System.out.println("TcpServer:getMessage:Exception in sendMesssage");
+           System.out.println("TcpServer:getMessage:Exception in getMesssage");
         }
         return obj;
     }
