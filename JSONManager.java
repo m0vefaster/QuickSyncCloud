@@ -42,7 +42,7 @@ public class JSONManager {
         System.out.println("JSONManager:getJSON:Making JSON from Message");
         obj.put("type", "Control");
         obj.put("value", message);
-
+        System.out.println("Message is:" + obj.toString());
         return obj;
     }
     public static JSONObject getJSON(File file)
