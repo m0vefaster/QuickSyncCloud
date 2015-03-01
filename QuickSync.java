@@ -58,7 +58,7 @@ public class QuickSync{
 
 
 	PeerNode self;
-        if(cloudIP.equals(selfIp))
+        if(weight == 0)
         {
            System.out.println("\nQuickSync:main:I am the cloud");
            isCloud = true; 
