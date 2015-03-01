@@ -113,9 +113,10 @@ class ListOfPeers
     {
         Iterator<PeerNode> itr = peerList.iterator();
         PeerNode node;
-
+        System.out.print("ListOfPeers:The Peer List is (for IpAddress)" + ipAddress);
         while(itr.hasNext()){
             node = itr.next();
+            System.out.println("PeerNode is:"+node.getIPAddress());
             if(node.getIPAddress().equals(ipAddress)){
                 return node;
             }
