@@ -128,6 +128,7 @@ public class TcpServer implements Runnable
                     }
                 }
                 catch (Exception e) {
+                    
                     try{
                         s.close();
                         System.out.println("TcpServer:run: closing socket "+s.toString());
@@ -136,11 +137,12 @@ public class TcpServer implements Runnable
                     }
                     catch(Exception ee)
                     {
+
                     }
                 }
             }
 
-            s.close();
+           
                
     }
     
