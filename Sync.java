@@ -95,8 +95,7 @@ public class Sync implements Runnable{
                     }
                 
                 listOfPeers.getSelf().setHashMapFilePeer( getFilesToRequestPerPeerMaster(listOfPeers));
-                System.out.println("Sync.java: Global Hashmap of controller");
-                print(listOfPeers.getSelf().getHashMapFilePeer());
+                System.out.println("--------------------------Sync.java: Global Hashmap of controller: " + listOfPeers.getSelf().getHashMapFilePeer());
 
                 SortedSet<PeerNode> peerList =listOfPeers.getList();
                 Iterator<PeerNode> it = peerList.iterator();
@@ -108,9 +107,9 @@ public class Sync implements Runnable{
 
                     System.out.print("\nThe File list of " + peerNode.getId() + "is:");
                     peerNode.getListOfFiles().printFileList();
-		    removeInvalidPeers(hmFilesPeers,peerNode);
-                    System.out.print("Sync.java: Hashmap from controller to " + peerNode.getId());
-                    print(hmFilesPeers);
+		    //removeInvalidPeers(hmFilesPeers,peerNode);
+                    System.out.print("------------------------Sync.java: Hashmap from controller to " + peerNode.getId() +" is: " + hmFilesPeers);
+                    //print(hmFilesPeers);
                     if(!hmFilesPeers.isEmpty()){
                         JSONObject obj = JSONManager.getJSON(hmFilesPeers);// make the object
                         sendMessage(peerNode.getSocket(),obj);
@@ -265,7 +264,6 @@ public class Sync implements Runnable{
 	     String peerIPAddress = peerNode.getIPAddress();	
 	     Set mappingSet = hmFilesPeers.entrySet();
              Iterator itr =  mappingSet.iterator();
-             SortedSet<PeerNode> peerList =listOfPeers.getList(); 
             while(itr.hasNext())
 			{
           		  Map.Entry<String, ArrayList<String>> entry = (Map.Entry<String, ArrayList<String>>)itr.next();
@@ -274,7 +272,7 @@ public class Sync implements Runnable{
 			  while(i<allPeers.size())
 				{
 					PeerNode node = listOfPeers.getPeerNode(allPeers.get(i));
-					if(peerNode.getIPAddress().equals(peerIPAddress))
+					if(peerNode.getIPAddress().equals(peerIPAddress) && !(peerNode.getIPAddress().equals(listOfPeers.getSelf().getIPAddress())))
 						{
 							allPeers.remove(i);
 						}

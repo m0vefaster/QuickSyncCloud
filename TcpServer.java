@@ -115,6 +115,7 @@ public class TcpServer implements Runnable
                         }
                         else
                         {
+			    System.out.println("----------------Got Array List and setting for PeerNode:"+peerNode.getId());
                             ListOfFiles lof= new ListOfFiles(list);
                             peerNode.setListOfFiles(lof);
                         }
