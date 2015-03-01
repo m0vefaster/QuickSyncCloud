@@ -158,4 +158,29 @@ class ListOfPeers
         return null;
    }	
 
+   void updateHashMapBeforeRemovingNode(PeerNode nodeToBeRemoved)
+   {
+      HashMap<String, ArrayList<String>> hmFilesPeers = mySelf.getHashMapFilePeer();
+      Set mappingSet = hmFilesPeers.entrySet();
+      String removeNodeId=nodeToBeRemoved.getId();  
+      Iterator itr =  mappingSet.iterator();
+      System.out.println("HashMap before removal---"+hmFilesPeers);  
+      while(itr.hasNext()){
+            Map.Entry<String, ArrayList<String>> entry = (Map.Entry<String, ArrayList<String>>)itr.next();
+            ArrayList<String> allPeers = entry.getValue();
+            int i=0;
+              while(i<allPeers.size())
+                {
+                    PeerNode node = getPeerNode(allPeers.get(i));
+                    if(node.getId().equals(removeNodeId))
+                        {
+                            allPeers.remove(i);
+                        }
+                    else
+                        i++;
+                }
+        }
+        System.out.println("HashMap after removal---"+hmFilesPeers); 
+   }
+
 }
