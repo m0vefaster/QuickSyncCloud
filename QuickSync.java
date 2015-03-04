@@ -55,20 +55,18 @@ public class QuickSync{
         hostName = args[0]; //Change it to get automatic hostname
         cloudIP=  args[1];//JOptionPane.showInputDialog("Enter CloudIP");
         Integer weight = Integer.parseInt(args[2]);
+        
+        PeerNode self = new PeerNode(hostName, selfIp, weight);//Integer.parseInt(JOptionPane.showInputDialog("Enter Weight:")));
+        peerList = new ListOfPeers(self);
 
 
-	PeerNode self;
-        if(weight == 0)
+
+        if(cloudIP.equals(selfIp))
         {
            System.out.println("\nQuickSync:main:I am the cloud");
            isCloud = true; 
-	   self = new PeerNode(cloudIP, cloudIP, weight);//Integer.parseInt(JOptionPane.showInputDialog("Enter Weight:")));
         }
-        else
-	{
-	   self = new PeerNode(hostName, selfIp, weight);//Integer.parseInt(JOptionPane.showInputDialog("Enter Weight:")));
-	}
-	peerList = new ListOfPeers(self);
+
         /* By pass 2 arguments */
     		/*
         if(args.length > 2){
@@ -141,15 +139,12 @@ public class QuickSync{
     }
 }
 
-    class Comp implements Comparator<PeerNode>
-    {
-        @Override
-        public int  compare(PeerNode pn1,PeerNode pn2)
-        {
-            if( pn2.getWeight() > pn1.getWeight())
-            return -1;
-            if(pn1.getWeight() == pn2.getWeight())
-            return 0;
-            return 1 ;
-        }
+class Comp implements Comparator<PeerNode>{
+    
+    @Override
+    public int  compare(PeerNode pn1,PeerNode pn2) {
+        if( pn1.getWeight() > pn2.getWeight())
+        return 1;
+        return -1 ;
     }
+}

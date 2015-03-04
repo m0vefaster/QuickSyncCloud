@@ -168,7 +168,7 @@ class ListOfPeers
       System.out.println("==================HashMap before removal---"+hmFilesPeers);  
       while(itr.hasNext()){
             Map.Entry<String, ArrayList<String>> entry = (Map.Entry<String, ArrayList<String>>)itr.next();
-            ArrayList<String> allPeers = entry.getValue();
+            ArrayList<String> allPeers = entry.getValue();-
             int i=0;
               while(i<allPeers.size())
                 {
