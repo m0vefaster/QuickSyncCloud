@@ -16,7 +16,8 @@ public class UdpServer implements Runnable
     UdpServer(int port, ListOfPeers peerList){
         try{
             serverSocket = new DatagramSocket(port);
-            //serverSocket = new MulticastSocket(port);
+            if(serverSocket==null) System.out.println("NULL in COnstrunctor");
+			//serverSocket = new MulticastSocket(port);
             this.serverSocket.setBroadcast(true);
             //InetAddress addr = InetAddress.getLocalHost();
             //String ipAddress = addr.getHostAddress();
@@ -42,6 +43,7 @@ public class UdpServer implements Runnable
                 {
                      System.out.println("***************UdpServer:run:Udp Server Running");
                 }
+				if(serverSocket==null)System.out.println("NULLLLL");
                 this.serverSocket.receive(recvPacket);
                 
                 if(recvPacket.getAddress().getHostAddress().toString().compareTo(peerList.getSelf().getIPAddress()) == 0 ||
