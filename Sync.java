@@ -8,8 +8,6 @@ import java.net.*;
 
 public class Sync implements Runnable{
     ListOfFiles files;
-    SendList toBeSent;
-    PeerFileList fileList;
     ListOfPeers listOfPeers;
     
     Sync(ListOfPeers listOfPeers)
