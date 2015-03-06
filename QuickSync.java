@@ -13,7 +13,7 @@ public class QuickSync{
     public static Sync sync;
     public static String serverPort;
     public static String cloudIP;
-    public static String hostName;
+    public static String hostName="default";
     public static boolean isCloud=false;
 
     public static void main(String[] args){
@@ -51,14 +51,22 @@ public class QuickSync{
             System.out.println("\nQuickSync:main:Self IP is:"+selfIp);
         }catch(Exception e){
         }
-
-        hostName = args[0]; //Change it to get automatic hostname
-        cloudIP=  args[1];//JOptionPane.showInputDialog("Enter CloudIP");
-        Integer weight = Integer.parseInt(args[2]);
+       
+		try
+		{
+		Random rand = new Random();	
+        hostName = InetAddress.getLocalHost().getHostName();//args[0]; //Change it to get automatic hostname
+        cloudIP=  InetAddress.getByName("ec2-52-10-100-25.us-west-2.compute.amazonaws.com").getHostAddress();// args[1];//JOptionPane.showInputDialog("Enter CloudIP");
+        Integer weight = rand.nextInt(50) + 1;//Integer.parseInt(args[2]);
         
         PeerNode self = new PeerNode(hostName, selfIp, weight);//Integer.parseInt(JOptionPane.showInputDialog("Enter Weight:")));
         peerList = new ListOfPeers(self);
+        System.out.println("Node Details:\n"+hostName+"\n"+cloudIP+"\n"+weight+"\n\n");
+	   	}
+		catch (Exception e)
+		{
 
+		}
 
 
         if(cloudIP.equals(selfIp))
