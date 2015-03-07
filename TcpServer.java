@@ -14,6 +14,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import java.util.*;
+import java.sql.Timestamp;
+import java.util.Date;
 
 public class TcpServer implements Runnable
 {
@@ -100,6 +102,10 @@ public class TcpServer implements Runnable
                         BufferedOutputStream bos = new BufferedOutputStream(fos);
                         bos.write(fileContent.getBytes());
                         bos.close();
+			java.util.Date date= new java.util.Date();
+			Timestamp t = new Timestamp(date.getTime()); 
+			
+			System.out.println(peerList.getSelf().getListOfFiles().getList().size() + " " + t);
                     }
                     else if(obj.get("type").equals("ArrayList"))
                     {
