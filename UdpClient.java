@@ -21,7 +21,7 @@ public class UdpClient implements Runnable
     
     UdpClient(int port, String broadcastAdd, ArrayList<String> client, ListOfPeers peerList){
         
-        System.out.println("UdpClient:UdpClient: Starting UDP client on port" + port);
+        //System.out.println("UdpClient:UdpClient: Starting UDP client on port" + port);
         try{
             this.clientSocket = new DatagramSocket();
             this.clientSocket.setBroadcast(true);
@@ -37,7 +37,7 @@ public class UdpClient implements Runnable
     
     /*
     UdpClient(String multicastAdd, ArrayList<String> client, ListOfPeers peerList){
-        System.out.println("UdpClient:UdpClient: Starting UDP client ");
+        //System.out.println("UdpClient:UdpClient: Starting UDP client ");
         try{
             clientSocket = new DatagramSocket();
         }
@@ -85,8 +85,8 @@ public class UdpClient implements Runnable
             ObjectOutputStream o = new ObjectOutputStream(b);
             o.writeObject(data);
             buf = b.toByteArray();
-            System.out.println("UdpClient:run: Created data");
-            System.out.println();
+            //System.out.println("UdpClient:run: Created data");
+            //System.out.println();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -97,7 +97,7 @@ public class UdpClient implements Runnable
 
            if((counter++) % 100 ==0 )
             {
-                 System.out.println("***************UdpClient:run:Udp Client Running");
+                 //System.out.println("***************UdpClient:run:Udp Client Running");
             }
             broadcastUdpPacket(buf);
             sendUdpPacket(buf, QuickSync.getCloudIp());

@@ -48,7 +48,7 @@ public class QuickSync{
                     }
                 }
             }
-            System.out.println("\nQuickSync:main:Self IP is:"+selfIp);
+            //System.out.println("\nQuickSync:main:Self IP is:"+selfIp);
         }catch(Exception e){
         }
        
@@ -61,7 +61,7 @@ public class QuickSync{
         
         PeerNode self = new PeerNode(hostName, selfIp, weight);//Integer.parseInt(JOptionPane.showInputDialog("Enter Weight:")));
         peerList = new ListOfPeers(self);
-        System.out.println("Node Details:\n"+hostName+"\n"+cloudIP+"\n"+weight+"\n\n");
+        //System.out.println("Node Details:\n"+hostName+"\n"+cloudIP+"\n"+weight+"\n\n");
 	   	}
 		catch (Exception e)
 		{
@@ -71,7 +71,7 @@ public class QuickSync{
 
         if(cloudIP.equals(selfIp))
         {
-           System.out.println("\nQuickSync:main:I am the cloud");
+           //System.out.println("\nQuickSync:main:I am the cloud");
            isCloud = true; 
         }
 
@@ -118,9 +118,9 @@ public class QuickSync{
         while(true){
             try {
                 s = ss.accept();
-                System.out.println("\nQuickSync:main:Server Accepted Connection");
+                //System.out.println("\nQuickSync:main:Server Accepted Connection");
                 Thread server = new Thread(new TcpServer(ss, s,peerList));
-                System.out.println("ClientServer:Created Thread for " +s. getRemoteSocketAddress());
+                //System.out.println("ClientServer:Created Thread for " +s. getRemoteSocketAddress());
                 server.start();   
             } 
             catch (Exception e) {

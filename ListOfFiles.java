@@ -79,9 +79,9 @@ class ListOfFiles implements Serializable
         String file;
         while(itr.hasNext()){
             file = itr.next();
-            System.out.print(file+",");
+            //System.out.print(file+",");
         }
-        System.out.println();
+        //System.out.println();
     }
 
 }

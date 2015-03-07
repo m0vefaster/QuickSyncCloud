@@ -35,23 +35,23 @@ public class TcpServer implements Runnable
     public void run()
     {
         int count =0;
-        System.out.println("TcpServer:run: Server running "+s.toString());
+        //System.out.println("TcpServer:run: Server running "+s.toString());
         while(true){
                 try {
                     JSONObject obj = getMessage(s);
 
                     if(count++%100 == 0){
-                        //System.out.println("TcpServer:run: Running TcpServer\n");
+                        ////System.out.println("TcpServer:run: Running TcpServer\n");
                     }
 
                     //Check for NULL Object
-		    //System.out.println("====================TcpServer:run:Got obj as :"+obj);
+		    ////System.out.println("====================TcpServer:run:Got obj as :"+obj);
                     if(obj.get("type").equals("Init"))
                     {
-                        System.out.print("TcpServer:run: Got an Init Message:");
+                        //System.out.print("TcpServer:run: Got an Init Message:");
                         String data = (String)obj.get("value");
                         String[] components = data.split(":");
-                        System.out.println(data);
+                        //System.out.println(data);
                         /* Check if it is from the same client. Parse peerList */
                         if(peerList.getPeerNode(components[0]) != null){
                             continue;
@@ -61,13 +61,13 @@ public class TcpServer implements Runnable
                         peer.setSocket(s);
                         /* Store the sender info in the linked list */
                         peerList.addPeerNode(peer);
-                        System.out.print("TcpServer:run: Printing Peer List:");
+                        //System.out.print("TcpServer:run: Printing Peer List:");
                         peerList.printPeerList();
 
                     }
                     else if(obj.get("type").equals("Control"))
                     {
-                        System.out.println("TcpServer:run: Got an Control Message from:"+s.getInetAddress().getHostAddress());
+                        //System.out.println("TcpServer:run: Got an Control Message from:"+s.getInetAddress().getHostAddress());
                         String str = (String)obj.get("value");
                         //Send the file from ...
                         File file= new File(path+"/"+str);
@@ -77,7 +77,7 @@ public class TcpServer implements Runnable
                     else if(obj.get("type").toString().substring(0,4).equals("File"))
                     {
                         
-                        System.out.println("TcpServer:run: Got an File from:"+s.getInetAddress().getHostAddress());
+                        //System.out.println("TcpServer:run: Got an File from:"+s.getInetAddress().getHostAddress());
                         String fileContent = (String)obj.get("value");
                         //Store this File...
                         String receivedPath = obj.get("type").toString().substring(4);
@@ -103,32 +103,32 @@ public class TcpServer implements Runnable
                     }
                     else if(obj.get("type").equals("ArrayList"))
                     {
-                        System.out.println("TcpServer:run: Got an ArrayList from:"+s.getInetAddress().getHostAddress());
+                        //System.out.println("TcpServer:run: Got an ArrayList from:"+s.getInetAddress().getHostAddress());
                         ArrayList list = (ArrayList)obj.get("value");
                         //Uodate the peerList peerNode list of files
                         PeerNode peerNode = peerList.getPeerNodeFromSocket(s);
-                        System.out.print("TcpServer:run: Printing Peer List:");
+                        //System.out.print("TcpServer:run: Printing Peer List:");
                         peerList.printPeerList();
                         if(peerNode ==null)
                         {
-                            System.out.println("TcpServer:run: \nCouldn't find the PeerNode");
+                            //System.out.println("TcpServer:run: \nCouldn't find the PeerNode");
                         }
                         else
                         {
-			    System.out.println("----------------Got Array List and setting for PeerNode:"+peerNode.getId());
+			    //System.out.println("----------------Got Array List and setting for PeerNode:"+peerNode.getId());
                             ListOfFiles lof= new ListOfFiles(list);
                             peerNode.setListOfFiles(lof);
                         }
                     }
                     else if(obj.get("type").equals("HashMap"))
                     {
-                        System.out.println("TcpServer:run: Got an HashMap from:"+s.getInetAddress().toString());
+                        //System.out.println("TcpServer:run: Got an HashMap from:"+s.getInetAddress().toString());
                         HashMap map = (HashMap)obj.get("value");
                         peerList.getSelf().setHashMapFilePeer(map);
                     }
                     else
                     {
-                        System.out.println("TcpServer:run: Got an Invalid Message from:"+s.getInetAddress().toString() + " "+obj);
+                        //System.out.println("TcpServer:run: Got an Invalid Message from:"+s.getInetAddress().toString() + " "+obj);
                     }
                 }
                 catch (Exception e) {
@@ -136,12 +136,12 @@ public class TcpServer implements Runnable
                     try{
 			             PeerNode nodeToBeRemoved = peerList.getPeerNodeFromSocket(s);
                          peerList.updateHashMapBeforeRemovingNode(nodeToBeRemoved);
-		                 System.out.println("Removing PeerNode:" + nodeToBeRemoved.getId() + ":" + peerList.removePeerNode(nodeToBeRemoved));	
+		                 //System.out.println("Removing PeerNode:" + nodeToBeRemoved.getId() + ":" + peerList.removePeerNode(nodeToBeRemoved));	
                     	 peerList.printPeerList();
 		                 s.close();
-                         System.out.println("TcpServer:run: closing socket "+s.toString());
+                         //System.out.println("TcpServer:run: closing socket "+s.toString());
                          e.printStackTrace();
-                         System.out.println("TcpServer:run:Exeception in TcpServer");
+                         //System.out.println("TcpServer:run:Exeception in TcpServer");
 			break;
                     }
                     catch(Exception ee)
@@ -172,7 +172,7 @@ public class TcpServer implements Runnable
         catch(Exception e)
         {
            e.printStackTrace();
-           System.out.println("TcpServer:getMessage:Exception in getMesssage");
+           //System.out.println("TcpServer:getMessage:Exception in getMesssage");
         }
         return obj;
     }
@@ -180,15 +180,15 @@ public class TcpServer implements Runnable
     
     void find(int x)
     {
-        System.out.println("========Inside find" + x + "===========");
+        //System.out.println("========Inside find" + x + "===========");
         Iterator<PeerNode> it = peerList.getList().iterator();
         while (it.hasNext())
         {
             PeerNode peerNode = it.next();
             ArrayList<String> lof = peerNode.getListOfFiles().getList();
-            System.out.println("For peer node:"+peerNode.getId()+" list of files is:"+lof.toString());
+            //System.out.println("For peer node:"+peerNode.getId()+" list of files is:"+lof.toString());
         }
-        System.out.println("========Leaving find()===========");
+        //System.out.println("========Leaving find()===========");
     }
 
         void sendMessage(Socket client , JSONObject obj)
@@ -206,7 +206,7 @@ public class TcpServer implements Runnable
         }
         catch(Exception e)
         {
-            System.out.println("TcpServer:sendMessage:Exception in sendMesssage");
+            //System.out.println("TcpServer:sendMessage:Exception in sendMesssage");
         }
     }
 
