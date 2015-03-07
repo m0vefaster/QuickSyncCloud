@@ -86,14 +86,14 @@ public class QuickSync{
         if(!isCloud)
         {
           /* Start UDP client thread. Broadcast IP is hard-coded to "255.255.255.255" for now. Change if needed. */
-          Thread udpClient = new Thread(new UdpClient(Integer.parseInt("8886"), "255.255.255.255", client, peerList));
+          //Thread udpClient = new Thread(new UdpClient(Integer.parseInt("8886"), "255.255.255.255", client, peerList));
           //Thread udpClient = new Thread(new UdpClient("FF7E:230::1234", client, peerList));
           //Thread udpClient = new Thread(new UdpClient("235.1.1.1", client, peerList));
-          udpClient.start();
+          //udpClient.start();
         
           /* Start UDP server thread */
-          Thread udpServer = new Thread(new UdpServer(Integer.parseInt("61001"), peerList));
-          udpServer.start();
+         // Thread udpServer = new Thread(new UdpServer(Integer.parseInt("61001"), peerList));
+         // udpServer.start();
         } 
         /* Start Sync thread */
         Thread sync = new Thread(new Sync(peerList));
@@ -117,17 +117,6 @@ public class QuickSync{
         /*Server listening for Incoming Connections and will spawn new Servers*/
         while(true){
             try {
-                InetAddress cloudInetAddress = InetAddress.getByName(cloudIP);
-                if(!isCloud && cloudInetAddress.isReachable(1000))
-                {
-                    System.out.println("\nQuickSync:main:Adding Cloud to Peer List");
-                    peerList.addPeerNode(new PeerNode(cloudIP,cloudIP, 0)); 
-                }
-                else if (!isCloud )
-                {
-                    System.out.println("\nQuickSync:main:Removing Cloud to Peer List");
-                    peerList.removePeerNode(cloudIP);
-                }
                 s = ss.accept();
                 System.out.println("\nQuickSync:main:Server Accepted Connection");
                 Thread server = new Thread(new TcpServer(ss, s,peerList));

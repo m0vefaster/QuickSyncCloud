@@ -45,7 +45,7 @@ public class TcpServer implements Runnable
                     }
 
                     //Check for NULL Object
-		    System.out.println("====================TcpServer:run:Got obj as :"+obj);
+		    //System.out.println("====================TcpServer:run:Got obj as :"+obj);
                     if(obj.get("type").equals("Init"))
                     {
                         System.out.print("TcpServer:run: Got an Init Message:");

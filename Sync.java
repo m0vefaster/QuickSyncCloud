@@ -110,7 +110,8 @@ public class Sync implements Runnable{
                     //print(hmFilesPeers);
                     if(!hmFilesPeers.isEmpty()){
                         JSONObject obj = JSONManager.getJSON(hmFilesPeers);// make the object
-                        sendMessage(peerNode.getSocket(),obj);
+                        if(peerNode.getSocket()==null) System.out.println("=====Socket is null before sending");
+			sendMessage(peerNode.getSocket(),obj);
                     }
                 }
 
