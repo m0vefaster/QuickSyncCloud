@@ -46,9 +46,20 @@ public class TcpServer implements Runnable
     {
         int count =0;
         System.out.println("TcpServer:run: Server running "+s.toString());
+        ObjectOutputStream out  = null;
+        ObjectInputStream in =  null;
+
+        try{
+            /* Create out and in streams */
+            OutputStream outToServer = s.getOutputStream();
+            out = new ObjectOutputStream(outToServer);
+            InputStream inFromServer = s.getInputStream();
+            in = new ObjectInputStream(inFromServer);
+        }catch(Exception e){
+        }
         while(true){
                 try {
-                    JSONObject obj = getMessage(s);
+                    JSONObject obj = getMessage(s, in);
 
 		    if(obj==null)
 			continue;
@@ -67,12 +78,6 @@ public class TcpServer implements Runnable
                         
                         PeerNode peer = new PeerNode(components[0], s.getInetAddress().getHostAddress(), Integer.parseInt(components[1]));
                         peer.setSocket(s);
-
-                        /* Create out and in streams */
-                        OutputStream outToServer = s.getOutputStream();
-                        ObjectOutputStream out = new ObjectOutputStream(outToServer);
-                        InputStream inFromServer = s.getInputStream();
-                        ObjectInputStream in = new ObjectInputStream(inFromServer);
 
                         peer.setOutputStream(out);
                         peer.setInputStream(in);
@@ -185,12 +190,10 @@ public class TcpServer implements Runnable
                
     }
     
-    JSONObject getMessage(Socket s)
+    JSONObject getMessage(Socket s, ObjectInputStream in)
     {
         JSONObject obj = null;
 
-        PeerNode peer = peerList.getPeerNodeFromIP(s.getInetAddress().getHostAddress());
-        ObjectInputStream in = peer.getInputStream();
         try
         {
             int length = (int)in.readObject();
