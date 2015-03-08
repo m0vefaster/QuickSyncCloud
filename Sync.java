@@ -5,11 +5,13 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import java.net.*;
+import java.sql.Timestamp;
+import java.util.Date;
 
 public class Sync implements Runnable{
     ListOfFiles files;
     ListOfPeers listOfPeers;
-    
+    int count1=0,count2=0;
     Sync(ListOfPeers listOfPeers)
     {
         this.listOfPeers = listOfPeers;
@@ -27,7 +29,11 @@ public class Sync implements Runnable{
             
             PeerNode masterNode = listOfPeers.getMaster();
             lof.getList();
-            //Send to Controller
+            PeerNode pn = (listOfPeers.getPeerNode("xq"));
+	    if (pn!=null && pn.getListOfFiles().getArrayListOfFiles()!=null)
+		System.out.println("\nSize of XQ file list is:"+pn.getListOfFiles().getArrayListOfFiles().size());
+
+	    //Send to Controller
             if(masterNode!=null)
             {
                 if(lof.getArrayListOfFiles().size() != 0){
@@ -52,7 +58,14 @@ public class Sync implements Runnable{
             /* Call seekFromPeer() on the list of files received from the controller */
             //HashMap<String, ArrayList<String>> hmFilesPeers = getFilesToRequestPerPeer(listOfPeers.getSelf().getHashMapFilePeer());
             
-
+            count2=lof.getArrayListOfFiles().size();
+            if(count2!=count1)
+            {
+                java.util.Date date= new java.util.Date();
+                Timestamp t = new Timestamp(date.getTime()); 
+                System.out.println("\n Number of Files Received till"+ t + "is:"+ count2);
+                count1=count2;
+            }
             Set mappingSet = getFilesToRequestPerPeer(listOfPeers.getSelf().getHashMapFilePeer(),listOfPeers.getSelf().getListOfFiles().getArrayListOfFiles()).entrySet();
             //System.out.println("Sync:run:Printing mappingSet:" + mappingSet);
             //System.out.println("Sync:run:Printing Global HashMap:" );
@@ -94,7 +107,7 @@ public class Sync implements Runnable{
                     }
                 
                 listOfPeers.getSelf().setHashMapFilePeer( getFilesToRequestPerPeerMaster(listOfPeers));
-                //System.out.println("--------------------------Sync.java: Global Hashmap of controller: " + listOfPeers.getSelf().getHashMapFilePeer());
+                System.out.println("--------------------------Sync.java: Global Hashmap of controller: " + listOfPeers.getSelf().getHashMapFilePeer());
 
                 SortedSet<PeerNode> peerList =listOfPeers.getList();
                 Iterator<PeerNode> it = peerList.iterator();
@@ -107,11 +120,11 @@ public class Sync implements Runnable{
                     //System.out.print("\nThe File list of " + peerNode.getId() + "is:");
                     peerNode.getListOfFiles().printFileList();
 		    //removeInvalidPeers(hmFilesPeers,peerNode);
-                    //System.out.print("------------------------Sync.java: Hashmap from controller to " + peerNode.getId() +" is: " + hmFilesPeers);
+                    System.out.print("------------------------Sync.java: Hashmap from controller to " + peerNode.getId() +" is: " + hmFilesPeers);
                     //print(hmFilesPeers);
                     if(!hmFilesPeers.isEmpty()){
                         JSONObject obj = JSONManager.getJSON(hmFilesPeers);// make the object
-                        if(peerNode.getSocket()==null) //System.out.println("=====Socket is null before sending");
+                        if(peerNode.getSocket()==null) System.out.println("=====Socket is null before sending");
 			sendMessage(peerNode.getSocket(),obj);
                     }
                 }

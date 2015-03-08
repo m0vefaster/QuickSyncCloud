@@ -34,7 +34,7 @@ public class JSONManager {
         obj.put("value", files);
 
         return obj;
-    }
+	    }
     
     public static JSONObject getJSON(String message)
     {
@@ -81,9 +81,8 @@ public class JSONManager {
         try {
             obj = (JSONObject) parser.parse(str);
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+            //e.printStackTrace();
+	}
 
         return obj;
     }
