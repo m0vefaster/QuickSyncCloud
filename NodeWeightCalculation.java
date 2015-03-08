@@ -52,10 +52,10 @@ class NodeWeightCalculation
           cpu = Double.parseDouble(matchFromFile("/proc/cpuinfo", "cpu\\s+M(.*)"));
           battery = Integer.parseInt(matchFromFile("/proc/acpi/battery/BAT0/info", "design\\s+c(.*)"));
           state = Integer.parseInt(matchFromFile("/proc/acpi/battery/BAT0/state", "remaining\\s+c(.*)"));                         
-          //System.out.println(cpu+" " + battery+" " +state);
+          System.out.println(cpu+" " + battery+" " +state);
           break;
         case "windows":
-          //System.out.println("2");
+          System.out.println("2");
           break;
         case "mac os x":
           //Processor Speed
@@ -97,11 +97,11 @@ class NodeWeightCalculation
               cpu = 1000 * Double.parseDouble(value);
             }
           }
-          //System.out.println(cpu+" " + battery+" " +state);
-          //System.out.println("3");
+          System.out.println(cpu+" " + battery+" " +state);
+          System.out.println("3");
           break;
         case "android":
-          //System.out.println("4");
+          System.out.println("4");
           break;
       }
 
