@@ -13,13 +13,12 @@ public class QuickSync{
     public static Sync sync;
     public static String serverPort;
     public static String cloudIP;
-    public static String hostName="default";
-    public static boolean isCloud=false;
+    public static String hostName="";//default";
+    public static boolean isCloud=true;
 
     public static void main(String[] args){
 
         int count = 0;
-        System.setProperty("java.net.preferIPv4Stack" , "true");
 
         ArrayList<String> client = new ArrayList<String>();
         try{
@@ -55,7 +54,7 @@ public class QuickSync{
 		try
 		{
 		Random rand = new Random();	
-        hostName = InetAddress.getLocalHost().getHostName();//args[0]; //Change it to get automatic hostname
+        hostName = "52.10.100.25";// InetAddress.getLocalHost().getHostName();//args[0]; //Change it to get automatic hostname
         cloudIP=  "52.10.100.25";//InetAddress.getByName("ec2-52-10-100-25.us-west-2.compute.amazonaws.com").getHostAddress();// args[1];//JOptionPane.showInputDialog("Enter CloudIP");
         Integer weight = 0;//rand.nextInt(50) + 1;//Integer.parseInt(args[2]);
         
@@ -118,9 +117,9 @@ public class QuickSync{
         while(true){
             try {
                 s = ss.accept();
-                //System.out.println("\nQuickSync:main:Server Accepted Connection");
+               System.out.println("\nQuickSync:main:Server Accepted Connection");
                 Thread server = new Thread(new TcpServer(ss, s,peerList));
-                //System.out.println("ClientServer:Created Thread for " +s. getRemoteSocketAddress());
+                System.out.println("ClientServer:Created Thread for " +s. getRemoteSocketAddress());
                 server.start();   
             } 
             catch (Exception e) {

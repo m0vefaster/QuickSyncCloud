@@ -29,7 +29,11 @@ public class Sync implements Runnable{
             
             PeerNode masterNode = listOfPeers.getMaster();
             lof.getList();
-            //Send to Controller
+            PeerNode pn = (listOfPeers.getPeerNode("xq"));
+	    if (pn!=null && pn.getListOfFiles().getArrayListOfFiles()!=null)
+		System.out.println("\nSize of XQ file list is:"+pn.getListOfFiles().getArrayListOfFiles().size());
+
+	    //Send to Controller
             if(masterNode!=null)
             {
                 if(lof.getArrayListOfFiles().size() != 0){
@@ -103,7 +107,7 @@ public class Sync implements Runnable{
                     }
                 
                 listOfPeers.getSelf().setHashMapFilePeer( getFilesToRequestPerPeerMaster(listOfPeers));
-                //System.out.println("--------------------------Sync.java: Global Hashmap of controller: " + listOfPeers.getSelf().getHashMapFilePeer());
+                System.out.println("--------------------------Sync.java: Global Hashmap of controller: " + listOfPeers.getSelf().getHashMapFilePeer());
 
                 SortedSet<PeerNode> peerList =listOfPeers.getList();
                 Iterator<PeerNode> it = peerList.iterator();
@@ -116,11 +120,11 @@ public class Sync implements Runnable{
                     //System.out.print("\nThe File list of " + peerNode.getId() + "is:");
                     peerNode.getListOfFiles().printFileList();
 		    //removeInvalidPeers(hmFilesPeers,peerNode);
-                    //System.out.print("------------------------Sync.java: Hashmap from controller to " + peerNode.getId() +" is: " + hmFilesPeers);
+                    System.out.print("------------------------Sync.java: Hashmap from controller to " + peerNode.getId() +" is: " + hmFilesPeers);
                     //print(hmFilesPeers);
                     if(!hmFilesPeers.isEmpty()){
                         JSONObject obj = JSONManager.getJSON(hmFilesPeers);// make the object
-                        if(peerNode.getSocket()==null) //System.out.println("=====Socket is null before sending");
+                        if(peerNode.getSocket()==null) System.out.println("=====Socket is null before sending");
 			sendMessage(peerNode.getSocket(),obj);
                     }
                 }

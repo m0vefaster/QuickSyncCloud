@@ -42,10 +42,8 @@ public class TcpServer implements Runnable
                 try {
                     JSONObject obj = getMessage(s);
 
-                    if(count++%100 == 0){
-                        ////System.out.println("TcpServer:run: Running TcpServer\n");
-                    }
-
+		    if(obj==null)
+			continue;
                     //Check for NULL Object
 		    ////System.out.println("====================TcpServer:run:Got obj as :"+obj);
                     if(obj.get("type").equals("Init"))
@@ -83,6 +81,7 @@ public class TcpServer implements Runnable
                         String fileContent = (String)obj.get("value");
                         //Store this File...
                         String receivedPath = obj.get("type").toString().substring(4);
+			System.out.println("filename"+receivedPath);	
                         String[] splits = receivedPath.split("/");
                         int noOfSplits = splits.length;
                         String newPath = path;
@@ -173,7 +172,7 @@ public class TcpServer implements Runnable
         }
         catch(Exception e)
         {
-           e.printStackTrace();
+           //e.printStackTrace();
            //System.out.println("TcpServer:getMessage:Exception in getMesssage");
         }
         return obj;
