@@ -102,10 +102,6 @@ public class TcpServer implements Runnable
                         BufferedOutputStream bos = new BufferedOutputStream(fos);
                         bos.write(fileContent.getBytes());
                         bos.close();
-			java.util.Date date= new java.util.Date();
-			Timestamp t = new Timestamp(date.getTime()); 
-			System.out.println("filename"+receivedPath);	
-			System.out.println(peerList.getSelf().getListOfFiles().getList().size() + " " + t);
                     }
                     else if(obj.get("type").equals("ArrayList"))
                     {
