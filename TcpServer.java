@@ -27,25 +27,17 @@ public class TcpServer implements Runnable
     static String homeDir = System.getProperty("user.home");
     static String folder = "QuickSync";
     static String path = homeDir + "/" + folder ;
-    OutputStream outToServer = null;
-    ObjectOutputStream out = null;
-    InputStream inFromServer = null;
-    ObjectInputStream in = null;
     
     public TcpServer(ServerSocket ss, Socket s, ListOfPeers peerList)
     {
 	try{
-	outToServer = s.getOutputStream();
-	out = new ObjectOutputStream(outToServer);
-        inFromServer = s.getInputStream();
-        in = new ObjectInputStream(inFromServer);
-        this.ss = ss;
-        this.s = s;
-        this.peerList = peerList;
+            this.ss = ss;
+            this.s = s;
+            this.peerList = peerList;
 	}
 	catch(Exception e)
 	{
-		e.printStackTrace();
+            e.printStackTrace();
 	}
     }
 
@@ -75,6 +67,16 @@ public class TcpServer implements Runnable
                         
                         PeerNode peer = new PeerNode(components[0], s.getInetAddress().getHostAddress(), Integer.parseInt(components[1]));
                         peer.setSocket(s);
+
+                        /* Create out and in streams */
+                        OutputStream outToServer = s.getOutputStream();
+                        ObjectOutputStream out = new ObjectOutputStream(outToServer);
+                        InputStream inFromServer = s.getInputStream();
+                        ObjectInputStream in = new ObjectInputStream(inFromServer);
+
+                        peer.setOutputStream(out);
+                        peer.setInputStream(in);
+
                         /* Store the sender info in the linked list */
                         peerList.addPeerNode(peer);
                         //System.out.print("TcpServer:run: Printing Peer List:");
@@ -83,12 +85,13 @@ public class TcpServer implements Runnable
                     }
                     else if(obj.get("type").equals("Control"))
                     {
+                        PeerNode peer = peerList.getPeerNodeFromIP(s.getInetAddress().getHostAddress());
                         //System.out.println("TcpServer:run: Got an Control Message from:"+s.getInetAddress().getHostAddress());
                         String str = (String)obj.get("value");
                         //Send the file from ...
                         File file= new File(path+"/"+str);
                         JSONObject obj2 = JSONManager.getJSON(file);
-                        sendMessage(obj2);
+                        peer.sendMessage(obj2);
                     }
                     else if(obj.get("type").toString().substring(0,4).equals("File"))
                     {
@@ -184,8 +187,10 @@ public class TcpServer implements Runnable
     
     JSONObject getMessage(Socket s)
     {
-        
         JSONObject obj = null;
+
+        PeerNode peer = peerList.getPeerNodeFromIP(s.getInetAddress().getHostAddress());
+        ObjectInputStream in = peer.getInputStream();
         try
         {
             int length = (int)in.readObject();
@@ -214,23 +219,6 @@ public class TcpServer implements Runnable
             System.out.println("For peer node:"+peerNode.getId()+" list of files is:"+lof.toString());
         }
         System.out.println("========Leaving find()===========");
-    }
-
-        void sendMessage(JSONObject obj)
-    {
-        try
-        {
-            byte[] outputArray = obj.toString().getBytes();
-            int len = obj.toString().length();
-            out.writeObject(len);
-            out.writeObject(outputArray);
-            //out.close();
-            //client.shutdownOutput();
-        }
-        catch(Exception e)
-        {
-            System.out.println("TcpServer:sendMessage:Exception in sendMesssage");
-        }
     }
 
 }

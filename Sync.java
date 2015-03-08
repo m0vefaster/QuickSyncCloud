@@ -48,7 +48,7 @@ public class Sync implements Runnable{
                         }
                         continue;
                     }
-                    sendMessage(masterNode.getSocket(),obj);
+                    masterNode.sendMessage(obj);
                 }
             }
             
@@ -122,7 +122,7 @@ public class Sync implements Runnable{
                     if(!hmFilesPeers.isEmpty()){
                         JSONObject obj = JSONManager.getJSON(hmFilesPeers);// make the object
                         if(peerNode.getSocket()==null) System.out.println("=====Socket is null before sending");
-			sendMessage(peerNode.getSocket(),obj);
+			peerNode.sendMessage(obj);
                     }
                 }
 
@@ -166,7 +166,7 @@ public class Sync implements Runnable{
         }
 
         JSONObject obj = JSONManager.getJSON(fileName);
-        sendMessage(peer.getSocket(),obj);
+        peer.sendMessage(obj);
         return true;
     }
     
@@ -247,6 +247,7 @@ public class Sync implements Runnable{
         System.out.println("Sync:run:========Leaving find()===========");
     }
 
+    /*
     void sendMessage(Socket client , JSONObject obj)
     {
         try
@@ -267,7 +268,7 @@ public class Sync implements Runnable{
             System.out.println("Sync:sendMessage:Exception in sendMesssage");
             e.printStackTrace();
         }
-    }
+    }*/
 
     void removeInvalidPeers (HashMap<String, ArrayList<String>> hmFilesPeers,PeerNode peerNode)
 	{
