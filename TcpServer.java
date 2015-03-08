@@ -16,6 +16,8 @@ import org.json.simple.parser.ParseException;
 import java.util.*;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
 public class TcpServer implements Runnable
 {
@@ -102,8 +104,14 @@ public class TcpServer implements Runnable
                         BufferedOutputStream bos = new BufferedOutputStream(fos);
                         bos.write(fileContent.getBytes());
                         bos.close();
-			java.util.Date date= new java.util.Date();
-			Timestamp t = new Timestamp(date.getTime()); 
+			//java.util.Date date= new java.util.Date();
+			//Timestamp t = new Timestamp(date.getTime()); 
+			SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+
+                	final TimeZone utc = TimeZone.getTimeZone("UTC");
+        	        dateFormatter.setTimeZone(utc);
+	
+	                String t = dateFormatter.format(new java.util.Date());
 			System.out.println("filename"+receivedPath);	
 			System.out.println(peerList.getSelf().getListOfFiles().getList().size() + " " + t);
                     }
