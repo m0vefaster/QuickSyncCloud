@@ -147,9 +147,9 @@ class ListOfPeers
         PeerNode node;
         while(itr.hasNext()){
             node = itr.next();
-	    System.out.println("Comparing roginal Socket:"+s +":with:"+node.getSocket());
+	    //System.out.println("Comparing roginal Socket:"+s +":with:"+node.getSocket());
             if(node.getSocket() == s ) {
-		System.out.println("Found a match for socket as PeerNode :"+ node.getId());
+	//	System.out.println("Found a match for socket as PeerNode :"+ node.getId());
                 return node;
             }
 

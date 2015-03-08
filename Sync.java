@@ -86,7 +86,7 @@ public class Sync implements Runnable{
 
                 if(listOfPeers.getList().size() !=0)
 		{
-		  System.out.println("Sync:run:I am the master and number of nodes in the list are" + listOfPeers.getList().size() );
+		  //System.out.println("Sync:run:I am the master and number of nodes in the list are" + listOfPeers.getList().size() );
                 }
                 else
                     {
@@ -114,8 +114,8 @@ public class Sync implements Runnable{
                     PeerNode peerNode = it.next();
                     HashMap<String, ArrayList<String>> hmFilesPeers = getFilesToRequestPerPeer(listOfPeers.getSelf().getHashMapFilePeer(),peerNode.getListOfFiles().getArrayListOfFiles());
 
-                    System.out.print("\nThe File list of " + peerNode.getId() + "is:");
-                    peerNode.getListOfFiles().printFileList();
+                   // System.out.print("\nThe File list of " + peerNode.getId() + "is:");
+            //        peerNode.getListOfFiles().printFileList();
 		    //removeInvalidPeers(hmFilesPeers,peerNode);
                 //    System.out.print("------------------------Sync.java: Hashmap from controller to " + peerNode.getId() +" is: " + hmFilesPeers);
                     //print(hmFilesPeers);
@@ -154,7 +154,7 @@ public class Sync implements Runnable{
     
     boolean seekFromPeer(String fileName, String peerId){
         PeerNode peer;
-        System.out.println("FileName is:"+fileName + " and Peer Id is:"+peerId);
+        //System.out.println("FileName is:"+fileName + " and Peer Id is:"+peerId);
         if(fileName == null || peerId == null){
             return false;
         }
