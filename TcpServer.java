@@ -27,12 +27,26 @@ public class TcpServer implements Runnable
     static String homeDir = System.getProperty("user.home");
     static String folder = "QuickSync";
     static String path = homeDir + "/" + folder ;
+    OutputStream outToServer = null;
+    ObjectOutputStream out = null;
+    InputStream inFromServer = null;
+    ObjectInputStream in = null;
     
     public TcpServer(ServerSocket ss, Socket s, ListOfPeers peerList)
     {
+	try{
+	outToServer = s.getOutputStream();
+	out = new ObjectOutputStream(outToServer);
+        inFromServer = s.getInputStream();
+        in = new ObjectInputStream(inFromServer);
         this.ss = ss;
         this.s = s;
         this.peerList = peerList;
+	}
+	catch(Exception e)
+	{
+		e.printStackTrace();
+	}
     }
 
     @Override
@@ -74,7 +88,7 @@ public class TcpServer implements Runnable
                         //Send the file from ...
                         File file= new File(path+"/"+str);
                         JSONObject obj2 = JSONManager.getJSON(file);
-                        sendMessage(s,obj2);
+                        sendMessage(obj2);
                     }
                     else if(obj.get("type").toString().substring(0,4).equals("File"))
                     {
@@ -174,8 +188,6 @@ public class TcpServer implements Runnable
         JSONObject obj = null;
         try
         {
-            InputStream inFromServer = s.getInputStream();
-            ObjectInputStream in = new ObjectInputStream(inFromServer);
             int length = (int)in.readObject();
             byte[] inputArray = new byte[length];
             inputArray = (byte[])in.readObject();
@@ -204,12 +216,10 @@ public class TcpServer implements Runnable
         System.out.println("========Leaving find()===========");
     }
 
-        void sendMessage(Socket client , JSONObject obj)
+        void sendMessage(JSONObject obj)
     {
         try
         {
-            OutputStream outToServer = client.getOutputStream();
-            ObjectOutputStream out = new ObjectOutputStream(outToServer);
             byte[] outputArray = obj.toString().getBytes();
             int len = obj.toString().length();
             out.writeObject(len);
