@@ -196,16 +196,23 @@ public class TcpServer implements Runnable
 
         try
         {
-            int length = 25000;//(int)in.readObject();
+            /*int length = (int)in.readObject();
             byte[] inputArray = new byte[length];
             inputArray = (byte[])in.readObject();
             String line = new String(inputArray);
-            obj = (JSONObject)(JSONManager.convertStringToJSON(line));
+            obj = (JSONObject)(JSONManager.convertStringToJSON(line));*/
+             if(in==null)
+		System.out.println("INputStream is null");
+	    if(s.isInputShutdown())
+         	    System.out.println("Shutdown----Available bytes to read are:"+in); 
+	    Message obj2  = (Message)in.readObject();
+	    obj = (JSONObject)obj2.obj;
         }
         catch(Exception e)
         {
            e.printStackTrace();
            //System.out.println("TcpServer:getMessage:Exception in getMesssage");
+	   
         }
         return obj;
     }
