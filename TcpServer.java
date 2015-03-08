@@ -48,7 +48,7 @@ public class TcpServer implements Runnable
 		    ////System.out.println("====================TcpServer:run:Got obj as :"+obj);
                     if(obj.get("type").equals("Init"))
                     {
-                        //System.out.print("TcpServer:run: Got an Init Message:");
+                        System.out.print("TcpServer:run: Got an Init Message:");
                         String data = (String)obj.get("value");
                         String[] components = data.split(":");
                         //System.out.println(data);
@@ -67,7 +67,7 @@ public class TcpServer implements Runnable
                     }
                     else if(obj.get("type").equals("Control"))
                     {
-                        //System.out.println("TcpServer:run: Got an Control Message from:"+s.getInetAddress().getHostAddress());
+                        System.out.println("TcpServer:run: Got an Control Message from:"+s.getInetAddress().getHostAddress());
                         String str = (String)obj.get("value");
                         //Send the file from ...
                         File file= new File(path+"/"+str);
@@ -77,11 +77,11 @@ public class TcpServer implements Runnable
                     else if(obj.get("type").toString().substring(0,4).equals("File"))
                     {
                         
-                        //System.out.println("TcpServer:run: Got an File from:"+s.getInetAddress().getHostAddress());
+                        System.out.println("TcpServer:run: Got an File from:"+s.getInetAddress().getHostAddress());
                         String fileContent = (String)obj.get("value");
                         //Store this File...
                         String receivedPath = obj.get("type").toString().substring(4);
-			System.out.println("filename"+receivedPath);	
+			//System.out.println("filename"+receivedPath);	
                         String[] splits = receivedPath.split("/");
                         int noOfSplits = splits.length;
                         String newPath = path;
@@ -104,7 +104,7 @@ public class TcpServer implements Runnable
                     }
                     else if(obj.get("type").equals("ArrayList"))
                     {
-                        //System.out.println("TcpServer:run: Got an ArrayList from:"+s.getInetAddress().getHostAddress());
+                        System.out.println("TcpServer:run: Got an ArrayList from:"+s.getInetAddress().getHostAddress());
                         ArrayList list = (ArrayList)obj.get("value");
                         //Uodate the peerList peerNode list of files
                         PeerNode peerNode = peerList.getPeerNodeFromSocket(s);
@@ -123,13 +123,13 @@ public class TcpServer implements Runnable
                     }
                     else if(obj.get("type").equals("HashMap"))
                     {
-                        //System.out.println("TcpServer:run: Got an HashMap from:"+s.getInetAddress().toString());
+                        System.out.println("TcpServer:run: Got an HashMap from:"+s.getInetAddress().toString());
                         HashMap map = (HashMap)obj.get("value");
                         peerList.getSelf().setHashMapFilePeer(map);
                     }
                     else
                     {
-                        //System.out.println("TcpServer:run: Got an Invalid Message from:"+s.getInetAddress().toString() + " "+obj);
+                        System.out.println("TcpServer:run: Got an Invalid Message from:"+s.getInetAddress().toString() + " "+obj);
                     }
                 }
                 catch (Exception e) {
@@ -142,7 +142,7 @@ public class TcpServer implements Runnable
 		                 s.close();
                          //System.out.println("TcpServer:run: closing socket "+s.toString());
                          e.printStackTrace();
-                         //System.out.println("TcpServer:run:Exeception in TcpServer");
+                         System.out.println("TcpServer:run:Exeception in TcpServer");
 			break;
                     }
                     catch(Exception ee)
@@ -173,7 +173,7 @@ public class TcpServer implements Runnable
         catch(Exception e)
         {
            //e.printStackTrace();
-           //System.out.println("TcpServer:getMessage:Exception in getMesssage");
+           System.out.println("TcpServer:getMessage:Exception in getMesssage");
         }
         return obj;
     }
