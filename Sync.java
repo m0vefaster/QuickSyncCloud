@@ -64,10 +64,10 @@ public class Sync implements Runnable{
                 count1=count2;
             }
             Set mappingSet = getFilesToRequestPerPeer(listOfPeers.getSelf().getHashMapFilePeer(),listOfPeers.getSelf().getListOfFiles().getArrayListOfFiles()).entrySet();
-            System.out.println("Sync:run:Printing mappingSet:" + mappingSet);
-            System.out.println("Sync:run:Printing Global HashMap:" );
-            print(listOfPeers.getSelf().getHashMapFilePeer());
-            System.out.println("Sync:run:Prinintg Array List:"+listOfPeers.getSelf().getListOfFiles().getArrayListOfFiles());
+            //System.out.println("Sync:run:Printing mappingSet:" + mappingSet);
+            //System.out.println("Sync:run:Printing Global HashMap:" );
+            //print(listOfPeers.getSelf().getHashMapFilePeer());
+            //System.out.println("Sync:run:Prinintg Array List:"+listOfPeers.getSelf().getListOfFiles().getArrayListOfFiles());
             Iterator itr =  mappingSet.iterator();
             
             while(itr.hasNext()){
@@ -147,7 +147,7 @@ public class Sync implements Runnable{
         
         while(itr.hasNext()){
             Map.Entry<String, ArrayList<String>> entry = (Map.Entry<String, ArrayList<String>>)itr.next();
-            System.out.print(entry.getKey() + ", ");
+            //System.out.print(entry.getKey() + ", ");
         }
         System.out.println();
     }
