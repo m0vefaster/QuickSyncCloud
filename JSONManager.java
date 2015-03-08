@@ -18,8 +18,8 @@ public class JSONManager {
     public static JSONObject getJSON(ArrayList<String> files)
     {
         JSONObject obj = new JSONObject();
-        System.out.println("JSONManager:getJSON:Making JSON from ArrayList");
-        System.out.println("JSONManager:getJSON:The ArrayList is"+files);
+        //System.out.println("JSONManager:getJSON:Making JSON from ArrayList");
+        //System.out.println("JSONManager:getJSON:The ArrayList is"+files);
         obj.put("type", "ArrayList");
         obj.put("value", files);
         return obj;
@@ -28,8 +28,8 @@ public class JSONManager {
     public static JSONObject getJSON(HashMap<String,ArrayList<String> > files)
     {
         JSONObject obj = new JSONObject();
-        System.out.println("JSONManager:getJSON:Making JSON from HashMap");
-        System.out.println("JSONManager:getJSON:The HashMap is:"+files);
+        //System.out.println("JSONManager:getJSON:Making JSON from HashMap");
+        //System.out.println("JSONManager:getJSON:The HashMap is:"+files);
         obj.put("type", "HashMap");
         obj.put("value", files);
 
@@ -39,16 +39,16 @@ public class JSONManager {
     public static JSONObject getJSON(String message)
     {
         JSONObject obj = new JSONObject();
-        System.out.println("JSONManager:getJSON:Making JSON from Message");
+        //System.out.println("JSONManager:getJSON:Making JSON from Message");
         obj.put("type", "Control");
         obj.put("value", message);
-        System.out.println("Message is:" + obj.toString());
+        //System.out.println("Message is:" + obj.toString());
         return obj;
     }
     public static JSONObject getJSON(File file)
     {
         JSONObject obj = new JSONObject();
-        System.out.println("JSONManager:getJSON:Making JSON from File");
+        //System.out.println("JSONManager:getJSON:Making JSON from File");
         final String EoL = System.getProperty("line.separator");
         List<String> lines;
         try {
@@ -59,7 +59,7 @@ public class JSONManager {
                 sb.append(line).append(EoL);
             }
             final String content = sb.toString();
-            //System.out.println(content);
+            ////System.out.println(content);
             String fileName = file.getAbsolutePath();
         	fileName=fileName.substring(fileName.indexOf("QuickSync")+10);
             obj.put("type", "File"+fileName);
@@ -75,7 +75,7 @@ public class JSONManager {
 
     public static Object convertStringToJSON(String str)
     {
-        System.out.println("JSONManager:convertStringToJSON:Converting String to JSON");
+        //System.out.println("JSONManager:convertStringToJSON:Converting String to JSON");
         JSONParser parser=new JSONParser();
         JSONObject obj = null;
         try {
