@@ -46,7 +46,7 @@ class ListOfFiles implements Serializable
             {
                 list.add(path+"/"+ listOfFiles[i].getName());
             }
-            else if(listOfFiles[i].isDirectory() && listOfFiles[i].getName().charAt(0) != '.'  && listOfFiles[i].length()>1000)
+            else if(listOfFiles[i].isDirectory() && listOfFiles[i].getName().charAt(0) != '.')
             {
                 getListHelper(list,path+"/"+ listOfFiles[i].getName());
             }
@@ -59,7 +59,7 @@ class ListOfFiles implements Serializable
     ArrayList<String> getList2 ( )
     {
          list2 = new ArrayList<String>();
-         return removeAbsolutePath(getListHelper(list2,path));
+         return removeAbsolutePath(getListHelper2(list2,path));
     }
 
     ArrayList<String> getListHelper2 (ArrayList<String> list2, String path)
