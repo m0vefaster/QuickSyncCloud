@@ -124,7 +124,7 @@ public class TcpServer implements Runnable
                         }
                         
                         File file = new File(path+"/"+ receivedPath);
-                        file.createNewFile();
+                        //file.createNewFile();
                         FileOutputStream fos = new FileOutputStream(file);
                         BufferedOutputStream bos = new BufferedOutputStream(fos);
                         bos.write(fileContent.getBytes());
