@@ -67,7 +67,7 @@ public class Sync implements Runnable{
                 System.out.println("\n Number of Files Received till"+ t + "is:"+ count2);
                 count1=count2;
             }
-            Set mappingSet = getFilesToRequestPerPeer(listOfPeers.getSelf().getHashMapFilePeer(),listOfPeers.getSelf().getListOfFiles().getArrayListOfFiles()).entrySet();
+            Set mappingSet = getFilesToRequestPerPeer(listOfPeers.getSelf().getHashMapFilePeer(), lof.getList2()).entrySet();
             //System.out.println("Sync:run:Printing mappingSet:" + mappingSet);
             //System.out.println("Sync:run:Printing Global HashMap:" );
             //print(listOfPeers.getSelf().getHashMapFilePeer());

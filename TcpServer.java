@@ -59,7 +59,7 @@ public class TcpServer implements Runnable
             in = new ObjectInputStream(inFromServer);
         }catch(Exception e){
         }
-        while(true){
+        while(!s.isClosed()){
                 try {
                     JSONObject obj = getMessage(s, in);
 
@@ -216,6 +216,10 @@ public class TcpServer implements Runnable
         catch(Exception e)
         {
            e.printStackTrace();
+           try{
+               s.close();
+           }catch(Exception ee){
+           }
            //System.out.println("TcpServer:getMessage:Exception in getMesssage");
 	   
         }
