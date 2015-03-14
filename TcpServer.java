@@ -36,8 +36,6 @@ public class TcpServer implements Runnable
             this.ss = ss;
             this.s = s;
             this.peerList = peerList;
-	    peerNode = peerList.getPeerNodeFromIP(s.getInetAddress().getHostAddress());
-            peerId=peerNode.getId();
 	}
 	catch(Exception e)
 	{
@@ -91,7 +89,9 @@ public class TcpServer implements Runnable
                         //System.out.print("TcpServer:run: Printing Peer List:");
                         peerList.printPeerList();
 
-                    }
+                        peerNode = peerList.getPeerNodeFromIP(s.getInetAddress().getHostAddress());
+                        peerId=peerNode.getId();
+	            }
                     else if(obj.get("type").equals("Control"))
                     {
                         PeerNode peer = peerList.getPeerNodeFromIP(s.getInetAddress().getHostAddress());
