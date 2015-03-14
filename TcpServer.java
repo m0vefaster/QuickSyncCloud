@@ -131,7 +131,7 @@ public class TcpServer implements Runnable
                         bos.close();
 			//java.util.Date date= new java.util.Date();
 			//Timestamp t = new Timestamp(date.getTime()); 
-			SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+			SimpleDateFormat dateFormatter = new SimpleDateFormat("HH:mm:ss z");
 
                 	final TimeZone utc = TimeZone.getTimeZone("UTC");
         	        dateFormatter.setTimeZone(utc);
