@@ -27,13 +27,17 @@ public class TcpServer implements Runnable
     static String homeDir = System.getProperty("user.home");
     static String folder = "QuickSync";
     static String path = homeDir + "/" + folder ;
-    
+    PeerNode peerNode;//Communicating with this node
+    String peerId;
+
     public TcpServer(ServerSocket ss, Socket s, ListOfPeers peerList)
     {
 	try{
             this.ss = ss;
             this.s = s;
             this.peerList = peerList;
+	    peerNode = peerList.getPeerNodeFromIP(s.getInetAddress().getHostAddress());
+            peerId=peerNode.getId();
 	}
 	catch(Exception e)
 	{
@@ -133,6 +137,7 @@ public class TcpServer implements Runnable
         	        dateFormatter.setTimeZone(utc);
 	
 	                String t = dateFormatter.format(new java.util.Date());
+			System.out.println("_"+peerNode.getId()+"_"+t+"_"+receivedPath);
 			//System.out.println("filename"+receivedPath);	
 			//System.out.println(peerList.getSelf().getListOfFiles().getList().size() + " " + t);
                     }
