@@ -137,7 +137,7 @@ public class TcpServer implements Runnable
         	        dateFormatter.setTimeZone(utc);
 	
 	                String t = dateFormatter.format(new java.util.Date());
-			System.out.println("_"+peerNode.getId()+"_"+t+"_"+receivedPath);
+			System.out.println("_"+peerNode.getId()+"_"+t+"_"+"\n"+receivedPath);
 			//System.out.println("filename"+receivedPath);	
 			//System.out.println(peerList.getSelf().getListOfFiles().getList().size() + " " + t);
                     }

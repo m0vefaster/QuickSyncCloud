@@ -12,6 +12,10 @@ public class Sync implements Runnable{
     ListOfFiles files;
     ListOfPeers listOfPeers;
     int count1=0,count2=0;
+    static String homeDir = System.getProperty("user.home");
+    static String folder = "QuickSync";
+    static String path = homeDir + "/" + folder ;
+
     Sync(ListOfPeers listOfPeers)
     {
         this.listOfPeers = listOfPeers;
@@ -164,9 +168,30 @@ public class Sync implements Runnable{
         if(peer == null){
             return false;
         }
+	
+       String[] splits = fileName.split("/");
+       int noOfSplits = splits.length;
+	String newPath = path;
 
+	while(noOfSplits > 1){
+		    newPath = newPath + "/" + splits[splits.length - noOfSplits];
+		    File theDir = new File(newPath);
+		    if(!theDir.exists()){
+			theDir.mkdir();
+		    }
+		    noOfSplits--;
+	}
+	try{
+	File file = new File(path+"/"+ fileName);
+	new FileOutputStream(file).close();
+	}catch(Exception e)
+	{
+		System.out.println("Couldn't touch file "+fileName);
+	}
+	//file.createNewFile();
         JSONObject obj = JSONManager.getJSON(fileName);
         peer.sendMessage(obj);
+
         return true;
     }
     
