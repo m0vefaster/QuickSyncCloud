@@ -38,11 +38,11 @@ class ListOfFiles implements Serializable
         
         for(int i=0;i< listOfFiles.length;i++)
         {
-            if(listOfFiles[i].isFile()  && listOfFiles[i].getName().charAt(0) != '.' && listOfFiles[i].length()!=0)
+            if(listOfFiles[i].isFile()  && listOfFiles[i].getName().charAt(0) != '.' )//&& listOfFiles[i].length()!=0)
             {
                 list.add(path+"/"+ listOfFiles[i].getName());
             }
-            else if(listOfFiles[i].isDirectory() && listOfFiles[i].getName().charAt(0) != '.' && listOfFiles[i].length()!=0)
+            else if(listOfFiles[i].isDirectory() && listOfFiles[i].getName().charAt(0) != '.')// && listOfFiles[i].length()!=0)
             {
                 getListHelper(list,path+"/"+ listOfFiles[i].getName());
             }
@@ -65,11 +65,11 @@ class ListOfFiles implements Serializable
 
         for(int i=0;i< listOfFiles.length;i++)
         {
-            if(listOfFiles[i].isFile()  && listOfFiles[i].getName().charAt(0) != '.')
+            if(listOfFiles[i].isFile()  && listOfFiles[i].getName().charAt(0) != '.' && listOfFiles[i].length()!=0)
             {
                 list.add(path+"/"+ listOfFiles[i].getName());
             }
-            else if(listOfFiles[i].isDirectory() && listOfFiles[i].getName().charAt(0) != '.')
+            else if(listOfFiles[i].isDirectory() && listOfFiles[i].getName().charAt(0) != '.' && listOfFiles[i].length()!=0)
             {
                 getListHelper2(list,path+"/"+ listOfFiles[i].getName());
             }
