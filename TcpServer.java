@@ -94,8 +94,8 @@ public class TcpServer implements Runnable
 	            }
                     else if(obj.get("type").equals("Control"))
                     {
-                        PeerNode peer = peerList.getPeerNodeFromIP(s.getInetAddress().getHostAddress());
-                        //System.out.println("TcpServer:run: Got an Control Message from:"+s.getInetAddress().getHostAddress());
+                        PeerNode peer = peerList.getPeerNodeFromSocket(s);//.getInetAddress().getHostAddress());
+                        System.out.println("TcpServer:run: Got an Control Message from:"+ peer.getId());
                         String str = (String)obj.get("value");
                         //Send the file from ...
                         File file= new File(path+"/"+str);
