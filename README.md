@@ -21,6 +21,16 @@ An application that combines the benefits of Cloud and P2P networks to provide m
 
 - Run the Code(QuickSync) with the hostname 
 
+##Results
+
+-We used our application to first simulate the Google Drive Topology i.e. having the Cloud as the master and two peers. Each peer is in a different network. Now we demonstrate the time taken for the peers to sync.  
+
+![alt tag](https://github.com/vish1562/QuickSync/blob/master/img/Topo.png)
+
+-In this topology, we demonstrate the effects of leveraging P2P network.  Initially, we have two peers in the network. Now when Peer A uploads a file. This time the time taken for the Cloud to sync the files is more compared to the time taken by Peer B.  Now, a third peer enters the network after all the peers have been synced.  Peer C can now fetch the files from Peer A, Peer B and the Cloud. This decreases the time to sync 4k files by 33%. 
+
+![alt tag](https://github.com/vish1562/QuickSync/blob/master/img/Topo2.png)
+
 ##Class Definition
 ####QuickSync
 It is the Main Class and starts the UDP Client and Server.  Starts the TCP Server. Connects to the Cloud.
@@ -42,14 +52,3 @@ Creates different JSON Objects
 Find the files that the peer posseses
 ####NodeWeightCalculation	
 Calculation of weights of Nodes based on different parameters.
-
-
-##Results
-
--We used our application to first simulate the Google Drive Topology i.e. having the Cloud as the master and two peers. Each peer is in a different network. Now we demonstrate the time taken for the peers to sync.  
-
-![alt tag](https://github.com/vish1562/QuickSync/blob/master/img/Topo.png)
-
--In this topology, we demonstrate the effects of leveraging P2P network.  Initially, we have two peers in the network. Now when Peer A uploads a file. This time the time taken for the Cloud to sync the files is more compared to the time taken by Peer B.  Now, a third peer enters the network after all the peers have been synced.  Peer C can now fetch the files from Peer A, Peer B and the Cloud. This decreases the time to sync 4k files by 33%. 
-
-![alt tag](https://github.com/vish1562/QuickSync/blob/master/img/Topo2.png)
