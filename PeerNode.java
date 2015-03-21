@@ -116,17 +116,17 @@ public class PeerNode implements Serializable {
             return;
         }
         try {
-            //    byte[] outputArray = obj.toString().getBytes();
+             
 
-            //  int len = obj.toString().length();
-            //out.writeObject(len);
+             
+             
 
-            //  out.writeObject(outputArray);
-            //out.flush();
-            //client.shutdownOutput();
-            //out.close();
+             
+             
+             
+             
             out.writeObject(new Message(obj));
-            //out.flush();
+             
         } catch (Exception e) {
             e.printStackTrace();
         }

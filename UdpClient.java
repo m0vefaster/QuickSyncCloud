@@ -10,7 +10,7 @@ import org.json.simple.parser.ParseException;
 
 public class UdpClient implements Runnable {
     private DatagramSocket clientSocket;
-    //private String multicastAdd;
+     
     private String broadcastAdd;
     private int port;
     private String selfIp;
@@ -33,20 +33,7 @@ public class UdpClient implements Runnable {
         this.peerList = peerList;
     }
 
-    /*
-    UdpClient(String multicastAdd, ArrayList<String> client, ListOfPeers peerList){
-        System.out.println("UdpClient:UdpClient: Starting UDP client ");
-        try{
-            clientSocket = new DatagramSocket();
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-        this.multicastAdd = multicastAdd;
-        this.client = client;
-        this.peerList = peerList;
-    }
-    */
+     
 
     void sendUdpPacket(byte[] data, String remoteIp) {
         try {
@@ -73,7 +60,7 @@ public class UdpClient implements Runnable {
         byte[] buf = new byte[100];
 
         try {
-            /* Create IP:port string to be sent as a UDP packet */
+             
             String data = peerList.getSelf().getId() + ":" + String.valueOf(peerList.getSelf().getWeight());
 
             JSONObject JSONobj = JSONManager.getJSON(data);
@@ -89,7 +76,7 @@ public class UdpClient implements Runnable {
             e.printStackTrace();
         }
 
-        /* Send Broadcast info */
+         
         int counter = 1;
         while (true) {
 
@@ -98,21 +85,12 @@ public class UdpClient implements Runnable {
             }
             broadcastUdpPacket(buf);
             sendUdpPacket(buf, QuickSync.getCloudIp());
-            //sendUdpPacket(buf, multicastAdd);
-            /*
-            if(client.isEmpty() == true){
-                broadcastUdpPacket(buf);
-            }else{
-                Iterator itr = client.iterator();
-                while(itr.hasNext()){
-                    sendUdpPacket(buf, (String)itr.next());
-                }
-            }
-            */
+             
+             
 
 
             try {
-                Thread.sleep(1000); //milliseconds
+                Thread.sleep(1000);  
             } catch (Exception e) {
                 e.printStackTrace();
             }

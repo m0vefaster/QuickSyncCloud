@@ -13,7 +13,7 @@ public class QuickSync {
     public static Sync sync;
     public static String serverPort;
     public static String cloudIP;
-    public static String hostName = ""; //default";
+    public static String hostName = "";  
     public static boolean isCloud = true;
 
     public static void main(String[] args) {
@@ -50,11 +50,11 @@ public class QuickSync {
 
         try {
             Random rand = new Random();
-            hostName = "52.10.100.25"; // InetAddress.getLocalHost().getHostName();//args[0]; //Change it to get automatic hostname
-            cloudIP = "52.10.100.25"; //InetAddress.getByName("ec2-52-10-100-25.us-west-2.compute.amazonaws.com").getHostAddress();// args[1];//JOptionPane.showInputDialog("Enter CloudIP");
-            Integer weight = 0; //rand.nextInt(50) + 1;//Integer.parseInt(args[2]);
+            hostName = "52.10.100.25";  
+            cloudIP = "52.10.100.25";  
+            Integer weight = 0;  
 
-            PeerNode self = new PeerNode(hostName, selfIp, weight); //Integer.parseInt(JOptionPane.showInputDialog("Enter Weight:")));
+            PeerNode self = new PeerNode(hostName, selfIp, weight);  
             peerList = new ListOfPeers(self);
             System.out.println("Node Details:\n" + hostName + "\n" + cloudIP + "\n" + weight + "\n\n");
         } catch (Exception e) {
@@ -67,30 +67,24 @@ public class QuickSync {
             isCloud = true;
         }
 
-        /* By pass 2 arguments */
-        /*
-        if(args.length > 2){
-            while(count < args.length - 2){
-                client.add(args[0]);
-                count++;
-            }
-        }*/
+         
+         
         if (!isCloud) {
-            /* Start UDP client thread. Broadcast IP is hard-coded to "255.255.255.255" for now. Change if needed. */
-            //Thread udpClient = new Thread(new UdpClient(Integer.parseInt("8886"), "255.255.255.255", client, peerList));
-            //Thread udpClient = new Thread(new UdpClient("FF7E:230::1234", client, peerList));
-            //Thread udpClient = new Thread(new UdpClient("235.1.1.1", client, peerList));
-            //udpClient.start();
+             
+             
+             
+             
+             
 
-            /* Start UDP server thread */
-            // Thread udpServer = new Thread(new UdpServer(Integer.parseInt("61001"), peerList));
-            // udpServer.start();
+             
+             
+             
         }
-        /* Start Sync thread */
+         
         Thread sync = new Thread(new Sync(peerList));
         sync.start();
 
-        /* Start a TCP receive thread */
+         
         ServerSocket ss = null;
 
         try {
@@ -101,7 +95,7 @@ public class QuickSync {
         }
         Socket s = null;
 
-        /*Server listening for Incoming Connections and will spawn new Servers*/
+         
         while (true) {
             try {
                 s = ss.accept();

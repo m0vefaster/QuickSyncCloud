@@ -26,7 +26,7 @@ public class TcpServer implements Runnable {
     static String homeDir = System.getProperty("user.home");
     static String folder = "QuickSync";
     static String path = homeDir + "/" + folder;
-    PeerNode peerNode; //Communicating with this node
+    PeerNode peerNode;  
     String peerId;
 
     public TcpServer(ServerSocket ss, Socket s, ListOfPeers peerList) {
@@ -47,7 +47,7 @@ public class TcpServer implements Runnable {
         ObjectInputStream in = null;
 
         try {
-            /* Create out and in streams */
+             
             OutputStream outToServer = s.getOutputStream();
             out = new ObjectOutputStream(outToServer);
             InputStream inFromServer = s.getInputStream(); in = new ObjectInputStream(inFromServer);
@@ -57,14 +57,14 @@ public class TcpServer implements Runnable {
                 JSONObject obj = getMessage(s, in );
 
                 if (obj == null) continue;
-                //Check for NULL Object
-                //System.out.println("====================TcpServer:run:Got obj as :"+obj);
+                 
+                 
                 if (obj.get("type").equals("Init")) {
-                    //System.out.print("TcpServer:run: Got an Init Message:");
+                     
                     String data = (String) obj.get("value");
                     String[] components = data.split(":");
-                    //System.out.println(data);
-                    /* Check if it is from the same client. Parse peerList */
+                     
+                     
                     if (peerList.getPeerNode(components[0]) != null) {
                         continue;
                     }
@@ -75,28 +75,28 @@ public class TcpServer implements Runnable {
                     peer.setOutputStream(out);
                     peer.setInputStream( in );
 
-                    /* Store the sender info in the linked list */
+                     
                     peerList.addPeerNode(peer);
-                    //System.out.print("TcpServer:run: Printing Peer List:");
+                     
                     peerList.printPeerList();
 
                     peerNode = peerList.getPeerNodeFromIP(s.getInetAddress().getHostAddress());
                     peerId = peerNode.getId();
                 } else if (obj.get("type").equals("Control")) {
-                    PeerNode peer = peerList.getPeerNodeFromSocket(s); //.getInetAddress().getHostAddress());
+                    PeerNode peer = peerList.getPeerNodeFromSocket(s);  
                     System.out.println("TcpServer:run: Got an Control Message from:" + peer.getId());
                     String str = (String) obj.get("value");
-                    //Send the file from ...
+                     
                     File file = new File(path + "/" + str);
                     JSONObject obj2 = JSONManager.getJSON(file);
                     peer.sendMessage(obj2);
                 } else if (obj.get("type").toString().substring(0, 4).equals("File")) {
 
-                    //System.out.println("TcpServer:run: Got an File from:"+s.getInetAddress().getHostAddress());
+                     
                     String fileContent = (String) obj.get("value");
-                    //Store this File...
+                     
                     String receivedPath = obj.get("type").toString().substring(4);
-                    //System.out.println("filename"+receivedPath);  
+                     
                     String[] splits = receivedPath.split("/");
                     int noOfSplits = splits.length;
                     String newPath = path;
@@ -111,13 +111,13 @@ public class TcpServer implements Runnable {
                     }
 
                     File file = new File(path + "/" + receivedPath);
-                    //file.createNewFile();
+                     
                     FileOutputStream fos = new FileOutputStream(file);
                     BufferedOutputStream bos = new BufferedOutputStream(fos);
                     bos.write(fileContent.getBytes());
                     bos.close();
-                    //java.util.Date date= new java.util.Date();
-                    //Timestamp t = new Timestamp(date.getTime()); 
+                     
+                     
                     SimpleDateFormat dateFormatter = new SimpleDateFormat("HH:mm:ss z");
 
                     final TimeZone utc = TimeZone.getTimeZone("UTC");
@@ -125,24 +125,24 @@ public class TcpServer implements Runnable {
 
                     String t = dateFormatter.format(new java.util.Date());
                     System.out.println("_" + peerNode.getId() + "_" + t + "_" + receivedPath);
-                    //System.out.println("filename"+receivedPath);  
-                    //System.out.println(peerList.getSelf().getListOfFiles().getList().size() + " " + t);
+                     
+                     
                 } else if (obj.get("type").equals("ArrayList")) {
-                    //System.out.println("TcpServer:run: Got an ArrayList from:"+s.getInetAddress().getHostAddress());
+                     
                     ArrayList list = (ArrayList) obj.get("value");
-                    //Uodate the peerList peerNode list of files
+                     
                     PeerNode peerNode = peerList.getPeerNodeFromSocket(s);
-                    //System.out.print("TcpServer:run: Printing Peer List:");
+                     
                     peerList.printPeerList();
                     if (peerNode == null) {
                         System.out.println("TcpServer:run: \nCouldn't find the PeerNode");
                     } else {
-                        //System.out.println("----------------Got Array List and setting for PeerNode:"+peerNode.getId());
+                         
                         ListOfFiles lof = new ListOfFiles(list);
                         peerNode.setListOfFiles(lof);
                     }
                 } else if (obj.get("type").equals("HashMap")) {
-                    //System.out.println("TcpServer:run: Got an HashMap from:"+s.getInetAddress().toString());
+                     
                     HashMap map = (HashMap) obj.get("value");
                     peerList.getSelf().setHashMapFilePeer(map);
                 } else {
@@ -174,11 +174,7 @@ public class TcpServer implements Runnable {
         JSONObject obj = null;
 
         try {
-            /*int length = (int)in.readObject();
-            byte[] inputArray = new byte[length];
-            inputArray = (byte[])in.readObject();
-            String line = new String(inputArray);
-            obj = (JSONObject)(JSONManager.convertStringToJSON(line));*/
+             
             if ( in == null) System.out.println("INputStream is null");
             if (s.isInputShutdown()) System.out.println("Shutdown----Available bytes to read are:" + in );
             Message obj2 = (Message) in .readObject();
@@ -188,7 +184,7 @@ public class TcpServer implements Runnable {
             try {
                 s.close();
             } catch (Exception ee) {}
-            //System.out.println("TcpServer:getMessage:Exception in getMesssage");
+             
 
         }
         return obj;
