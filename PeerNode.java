@@ -51,7 +51,6 @@ public class PeerNode implements Serializable {
         this.isCloud = isCloud;
     }
 
-
     public Socket getSocket() {
         return socket;
     }
@@ -108,8 +107,6 @@ public class PeerNode implements Serializable {
     ObjectInputStream getInputStream() {
         return in;
     }
-
-
 
     synchronized void sendMessage(JSONObject obj) {
         if (socket == null) {

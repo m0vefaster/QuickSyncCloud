@@ -61,7 +61,6 @@ public class QuickSync {
 
         }
 
-
         if (cloudIP.equals(selfIp)) {
             System.out.println("\nQuickSync:main:I am the cloud");
             isCloud = true;

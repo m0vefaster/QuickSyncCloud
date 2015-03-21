@@ -44,7 +44,6 @@ class ListOfFiles implements Serializable {
         return list;
     }
 
-
     ArrayList < String > getList2() {
         list2 = new ArrayList < String > ();
         return removeAbsolutePath(getListHelper2(list2, path));

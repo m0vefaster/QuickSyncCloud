@@ -25,7 +25,6 @@ public class Sync implements Runnable {
         ListOfFiles lof = listOfPeers.getSelf().getListOfFiles();
         ArrayList < String > arrayOfFiles = new ArrayList < String > ();
 
-
          
         while (true) {
 
@@ -170,7 +169,6 @@ public class Sync implements Runnable {
         return true;
     }
 
-
     HashMap < String, ArrayList < String >> getFilesToRequestPerPeerMaster(ListOfPeers peers) {
          
 
@@ -188,7 +186,6 @@ public class Sync implements Runnable {
 
         return hmFilesPeers;
     }
-
 
     void addToHashMap(HashMap < String, ArrayList < String >> hmFilesPeers, PeerNode peerNode) {
         ArrayList < String > lof = peerNode.getListOfFiles().getArrayListOfFiles();
@@ -210,7 +207,6 @@ public class Sync implements Runnable {
         if (filesWithPeer == null) {
             return hmFilesPeers;
         }
-
 
         int i;
         HashMap < String, ArrayList < String >> incrementalHashMap = new HashMap < String, ArrayList < String >> (hmFilesPeers);

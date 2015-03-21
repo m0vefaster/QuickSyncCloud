@@ -35,7 +35,6 @@ class ListOfPeers {
         return true;
     }
 
-
     boolean removePeerNode(PeerNode removeNode) {
         if (!present(removeNode)) return false;
 
@@ -86,7 +85,6 @@ class ListOfPeers {
         return null;
     }
 
-
     SortedSet < PeerNode > getList() {
         return peerList;
     }
@@ -105,7 +103,6 @@ class ListOfPeers {
 
         return null;
     }
-
 
     void printPeerList() {
         Iterator < PeerNode > itr = peerList.iterator();

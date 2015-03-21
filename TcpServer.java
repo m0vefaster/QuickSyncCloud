@@ -166,8 +166,6 @@ public class TcpServer implements Runnable {
             }
         }
 
-
-
     }
 
     JSONObject getMessage(Socket s, ObjectInputStream in ) {
@@ -189,7 +187,6 @@ public class TcpServer implements Runnable {
         }
         return obj;
     }
-
 
     void find(int x) {
         System.out.println("========Inside find" + x + "===========");
