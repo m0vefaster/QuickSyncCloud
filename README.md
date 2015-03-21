@@ -7,7 +7,7 @@ An application that combines the benefits of Cloud and P2P networks to provide m
 
 ## We have leveraged both P2P and Cloud Topologies
 
-![alt tag](https://github.com/vish1562/QuickSync/blob/master/img/P2P.png)
+![alt tag](https://github.com/vish1562/QuickSync/blob/master/img/QuickSync-Topology.png)
 
 ## Steps to Run
 
