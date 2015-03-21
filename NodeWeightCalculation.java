@@ -10,11 +10,9 @@ import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.io.InputStreamReader;
 
-class NodeWeightCalculation 
-{
+class NodeWeightCalculation {
   //public String getOs()
-  public static String matchFromFile(String file, String pattern)
-  {   
+  public static String matchFromFile(String file, String pattern) {
     Pattern regexp = Pattern.compile(pattern, Pattern.MULTILINE);
     Matcher matcher = regexp.matcher("");
     Path path = Paths.get(file);
@@ -22,37 +20,33 @@ class NodeWeightCalculation
     try {
       BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8);
       LineNumberReader lineReader = new LineNumberReader(reader);
-    
+
       String line = null;
       while ((line = lineReader.readLine()) != null) {
         matcher.reset(line); //reset the input
-        if (matcher.find()) 
-        {
+        if (matcher.find()) {
           value = line.split(":")[1];
-          value = value.replaceAll("[^\\.0123456789]","");
+          value = value.replaceAll("[^\\.0123456789]", "");
           break;
         }
-      }    
-    }
-    catch (IOException ex){
+      }
+    } catch (IOException ex) {
       ex.printStackTrace();
     }
     return value;
   }
 
-  public static int getWeight()
-  {
+  public static int getWeight() {
     String os = System.getProperty("os.name").toLowerCase();
-    Double cpu=0.0;
-    Integer battery=1, state=0;
-    try{
-      switch(os)
-      {
+    Double cpu = 0.0;
+    Integer battery = 1, state = 0;
+    try {
+      switch (os) {
         case "linux":
           cpu = Double.parseDouble(matchFromFile("/proc/cpuinfo", "cpu\\s+M(.*)"));
           battery = Integer.parseInt(matchFromFile("/proc/acpi/battery/BAT0/info", "design\\s+c(.*)"));
-          state = Integer.parseInt(matchFromFile("/proc/acpi/battery/BAT0/state", "remaining\\s+c(.*)"));                         
-          System.out.println(cpu+" " + battery+" " +state);
+          state = Integer.parseInt(matchFromFile("/proc/acpi/battery/BAT0/state", "remaining\\s+c(.*)"));
+          System.out.println(cpu + " " + battery + " " + state);
           break;
         case "windows":
           System.out.println("2");
@@ -70,34 +64,27 @@ class NodeWeightCalculation
 
           String line = "";
           String value;
-          while((line = reader.readLine()) != null) 
-          {
-            if(line.contains("Charge"))
-            {
-              if(line.contains("Charge Remaining"))
-              {
+          while ((line = reader.readLine()) != null) {
+            if (line.contains("Charge")) {
+              if (line.contains("Charge Remaining")) {
                 value = line.split(":")[1];
-                value = value.replaceAll("[^\\.0123456789]","");
+                value = value.replaceAll("[^\\.0123456789]", "");
                 state = Integer.parseInt(value);
-              }
-              else if(line.contains("Charge Capacity"))
-              {
+              } else if (line.contains("Charge Capacity")) {
                 value = line.split(":")[1];
-                value = value.replaceAll("[^\\.0123456789]","");
+                value = value.replaceAll("[^\\.0123456789]", "");
                 battery = Integer.parseInt(value);
               }
             }
           }
-          while((line = reader2.readLine()) != null) 
-          {
-            if(line.contains("Processor Speed"))
-            {
+          while ((line = reader2.readLine()) != null) {
+            if (line.contains("Processor Speed")) {
               value = line.split(":")[1];
-              value = value.replaceAll("[^\\.0123456789]","");
+              value = value.replaceAll("[^\\.0123456789]", "");
               cpu = 1000 * Double.parseDouble(value);
             }
           }
-          System.out.println(cpu+" " + battery+" " +state);
+          System.out.println(cpu + " " + battery + " " + state);
           System.out.println("3");
           break;
         case "android":
@@ -105,11 +92,9 @@ class NodeWeightCalculation
           break;
       }
 
-    }
-    catch(IOException e)
-    {
+    } catch (IOException e) {
       e.printStackTrace();
     }
-    return (int)(cpu + (state*1000)/battery);
+    return (int)(cpu + (state * 1000) / battery);
   }
 }

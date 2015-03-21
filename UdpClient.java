@@ -8,25 +8,23 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class UdpClient implements Runnable
-{
+public class UdpClient implements Runnable {
     private DatagramSocket clientSocket;
     //private String multicastAdd;
     private String broadcastAdd;
     private int port;
     private String selfIp;
     private ListOfPeers peerList;
-    private ArrayList<String> client;
-    
-    
-    UdpClient(int port, String broadcastAdd, ArrayList<String> client, ListOfPeers peerList){
-        
+    private ArrayList < String > client;
+
+
+    UdpClient(int port, String broadcastAdd, ArrayList < String > client, ListOfPeers peerList) {
+
         System.out.println("UdpClient:UdpClient: Starting UDP client on port" + port);
-        try{
+        try {
             this.clientSocket = new DatagramSocket();
             this.clientSocket.setBroadcast(true);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         this.broadcastAdd = broadcastAdd;
@@ -34,7 +32,7 @@ public class UdpClient implements Runnable
         this.client = client;
         this.peerList = peerList;
     }
-    
+
     /*
     UdpClient(String multicastAdd, ArrayList<String> client, ListOfPeers peerList){
         System.out.println("UdpClient:UdpClient: Starting UDP client ");
@@ -50,54 +48,53 @@ public class UdpClient implements Runnable
     }
     */
 
-    void sendUdpPacket(byte[] data, String remoteIp){
-        try{
+    void sendUdpPacket(byte[] data, String remoteIp) {
+        try {
             DatagramPacket packet = new DatagramPacket(data, data.length, InetAddress.getByName(remoteIp), 61001);
             this.clientSocket.send(packet);
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    
-    void broadcastUdpPacket(byte[] data){
-        try{
+
+
+    void broadcastUdpPacket(byte[] data) {
+        try {
             DatagramPacket packet = new DatagramPacket(data, data.length, InetAddress.getByName(broadcastAdd), 61001);
             this.clientSocket.send(packet);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    
-    public void run(){
-        int i ;
+
+
+    public void run() {
+        int i;
         byte[] buf = new byte[100];
-        
-        try{
+
+        try {
             /* Create IP:port string to be sent as a UDP packet */
             String data = peerList.getSelf().getId() + ":" + String.valueOf(peerList.getSelf().getWeight());
-            
+
             JSONObject JSONobj = JSONManager.getJSON(data);
             data = JSONobj.toString();
-            
+
             ByteArrayOutputStream b = new ByteArrayOutputStream();
             ObjectOutputStream o = new ObjectOutputStream(b);
             o.writeObject(data);
             buf = b.toByteArray();
             System.out.println("UdpClient:run: Created data");
             System.out.println();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         /* Send Broadcast info */
         int counter = 1;
-        while(true){
+        while (true) {
 
-           if((counter++) % 100 ==0 )
-            {
-                 System.out.println("***************UdpClient:run:Udp Client Running");
+            if ((counter++) % 100 == 0) {
+                System.out.println("***************UdpClient:run:Udp Client Running");
             }
             broadcastUdpPacket(buf);
             sendUdpPacket(buf, QuickSync.getCloudIp());
@@ -116,7 +113,7 @@ public class UdpClient implements Runnable
 
             try {
                 Thread.sleep(1000); //milliseconds
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
